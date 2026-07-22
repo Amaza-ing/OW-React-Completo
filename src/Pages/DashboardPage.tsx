@@ -1,3 +1,6 @@
+import ContentPanel from "../components/common/ContentPanel";
+import PageHeader from "../components/common/PageHeader";
+import SummaryCard from "../components/common/SummaryCard";
 import ProjectCard from "../components/projects/ProjectCard";
 import TaskItem from "../components/tasks/TaskItem";
 import { projects } from "../data/projects";
@@ -14,71 +17,48 @@ function DashboardPage() {
 
   return (
     <div className="page">
-      <header className="page-header">
-        <div>
-          <p className="page-header__eyebrow">Vista general</p>
-          <h1>Resumen de trabajo</h1>
-          <p>
-            Consulta rápidamente el estado de los proyectos y tareas del equipo.
-          </p>
-        </div>
-
-        <span className="page-header__badge">Datos simulados</span>
-      </header>
+      <PageHeader
+        eyebrow="Vista general"
+        title="Resumen de trabajo"
+        description="Consulta rápidamente el estado de los proyectos y tareas del equipo."
+        badge="Datos simulados"
+      />
 
       <section className="summary-grid" aria-label="Resumen">
-        <article className="summary-card">
-          <span>Proyectos totales</span>
-          <strong>{projectSummary.total}</strong>
+        <SummaryCard label="Proyectos totales" value={projectSummary.total}>
           <p>Proyectos registrados en TaskFlow.</p>
-        </article>
+        </SummaryCard>
 
-        <article className="summary-card">
-          <span>Proyectos activos</span>
-          <strong>{projectSummary.active}</strong>
+        <SummaryCard label="Proyectos activos" value={projectSummary.active}>
           <p>Progreso medio: {projectSummary.averageProgress}%.</p>
-        </article>
+        </SummaryCard>
 
-        <article className="summary-card">
-          <span>Tareas pendientes</span>
-          <strong>{taskSummary.pending}</strong>
+        <SummaryCard label="Tareas pendientes" value={taskSummary.pending}>
           <p>{taskSummary.inProgress} tareas se encuentran en curso.</p>
-        </article>
+        </SummaryCard>
 
-        <article className="summary-card">
-          <span>Tareas completadas</span>
-          <strong>{taskSummary.completed}</strong>
+        <SummaryCard label="Tareas completadas" value={taskSummary.completed}>
           <p>De un total de {taskSummary.total} tareas registradas.</p>
-        </article>
+        </SummaryCard>
       </section>
 
-      <section className="content-panel">
-        <header className="content-panel__header">
-          <div>
-            <p className="page-header__eyebrow">Proyectos</p>
-            <h2>Proyectos destacados</h2>
-          </div>
-
-          <span>{highlightedProjects.length} proyectos</span>
-        </header>
-
+      <ContentPanel
+        eyebrow="Proyectos"
+        title="Proyectos destacados"
+        meta={`${highlightedProjects.length} proyectos`}
+      >
         <div className="project-grid project-grid--preview">
           {highlightedProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-      </section>
+      </ContentPanel>
 
-      <section className="content-panel">
-        <header className="content-panel__header">
-          <div>
-            <p className="page-header__eyebrow">Actividad</p>
-            <h2>Tareas recientes</h2>
-          </div>
-
-          <span>{recentTasks.length} tareas</span>
-        </header>
-
+      <ContentPanel
+        eyebrow="Actividad"
+        title="Tareas recientes"
+        meta={`${recentTasks.length} tareas`}
+      >
         <div className="task-list">
           {recentTasks.map((task) => {
             const project = getProjectById(projects, task.projectId);
@@ -92,7 +72,7 @@ function DashboardPage() {
             );
           })}
         </div>
-      </section>
+      </ContentPanel>
     </div>
   );
 }
