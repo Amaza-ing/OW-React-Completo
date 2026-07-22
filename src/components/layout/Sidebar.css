@@ -72,14 +72,6 @@
     .sidebar__footer {
       display: none;
     }
-
-    .sidebar__list {
-      grid-template-columns: repeat(3, minmax(max-content, 1fr));
-    }
-
-    .sidebar__link {
-      text-align: center;
-    }
   }
 }
 
