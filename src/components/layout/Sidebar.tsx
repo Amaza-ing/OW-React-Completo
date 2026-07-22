@@ -1,9 +1,9 @@
-import type { ViewName } from "../../types/navigation";
+import type { NavigateHandler, ViewName } from "../../types/navigation";
 import "./Sidebar.css";
 
 type SidebarProps = {
   activeView: ViewName;
-  onNavigate: (view: ViewName) => void;
+  onNavigate: NavigateHandler;
 };
 
 function Sidebar({ activeView, onNavigate }: SidebarProps) {

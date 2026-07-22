@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { ViewName } from "../../types/navigation";
+import type { NavigateHandler, ViewName } from "../../types/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./Sidebar";
 import "./AppLayout.css";
@@ -7,7 +7,7 @@ import "./AppLayout.css";
 type AppLayoutProps = {
   children: ReactNode;
   activeView: ViewName;
-  onNavigate: (view: ViewName) => void;
+  onNavigate: NavigateHandler;
 };
 
 function AppLayout({ children, activeView, onNavigate }: AppLayoutProps) {

@@ -1,8 +1,8 @@
-import type { ViewName } from "../../types/navigation";
+import type { NavigateHandler } from "../../types/navigation";
 import "./AppHeader.css";
 
 type AppHeaderProps = {
-  onNavigate: (view: ViewName) => void;
+  onNavigate: NavigateHandler;
 };
 
 function AppHeader({ onNavigate }: AppHeaderProps) {
