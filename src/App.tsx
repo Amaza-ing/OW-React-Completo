@@ -1,8 +1,8 @@
 import { useState } from "react";
 import AppLayout from "./components/layout/AppLayout";
-import DashboardPage from "./Pages/DashboardPage";
-import ProjectsPage from "./Pages/ProjectsPage";
-import TasksPage from "./Pages/TasksPage";
+import DashboardPage from "./pages/DashboardPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import TasksPage from "./pages/TasksPage";
 import type { ViewName } from "./types/navigation";
 import "./App.css";
 
