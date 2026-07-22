@@ -16,7 +16,14 @@
   }
 
   .app-header__brand {
+    padding: 0;
+    color: inherit;
+    background: none;
+    border: 0;
     border-radius: 0.5rem;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
 
     &:focus-visible {
       outline: 3px solid #93c5fd;

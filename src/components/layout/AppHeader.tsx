@@ -1,16 +1,25 @@
+import type { ViewName } from "../../types/navigation";
 import "./AppHeader.css";
 
-function AppHeader() {
+type AppHeaderProps = {
+  onNavigate: (view: ViewName) => void;
+};
+
+function AppHeader({ onNavigate }: AppHeaderProps) {
   return (
     <header className="app-header">
-      <a className="app-header__brand" href="#dashboard">
+      <button
+        className="app-header__brand"
+        type="button"
+        onClick={() => onNavigate("dashboard")}
+      >
         <span className="app-header__logo">TF</span>
 
         <span>
           <strong>TaskFlow</strong>
           <small>Gestión de proyectos</small>
         </span>
-      </a>
+      </button>
 
       <div className="app-header__user">
         <span className="app-header__avatar">AM</span>
