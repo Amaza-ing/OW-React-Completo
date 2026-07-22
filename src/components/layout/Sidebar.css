@@ -47,7 +47,7 @@
       background-color: #eff6ff;
     }
 
-    &--active {
+    &.sidebar__link--active {
       color: #ffffff;
       background-color: #2563eb;
 
