@@ -1,0 +1,32 @@
+.app-layout {
+  min-height: 100vh;
+
+  .app-layout__body {
+    min-height: calc(100vh - 72px);
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .app-layout__content {
+    min-width: 0;
+    padding: 2rem;
+    background-color: #f1f5f9;
+  }
+}
+
+@media (max-width: 800px) {
+  .app-layout__body {
+    min-height: calc(100vh - 64px);
+    grid-template-columns: 1fr;
+  }
+
+  .app-layout__content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-layout__content {
+    padding: 1rem;
+  }
+}
