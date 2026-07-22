@@ -1,11 +1,17 @@
 import ContentPanel from "../components/common/ContentPanel";
 import PageHeader from "../components/common/PageHeader";
+import TaskForm from "../components/tasks/TaskForm";
 import TaskItem from "../components/tasks/TaskItem";
 import { projects } from "../data/projects";
-import { tasks } from "../data/tasks";
+import type { AddTaskHandler, Task } from "../types/task";
 import { getProjectById } from "../utils/projectUtils";
 
-function TasksPage() {
+type TasksPageProps = {
+  tasks: Task[];
+  onAddTask: AddTaskHandler;
+};
+
+function TasksPage({ tasks, onAddTask }: TasksPageProps) {
   return (
     <div className="page">
       <PageHeader
@@ -14,6 +20,14 @@ function TasksPage() {
         description="Consulta las tareas pendientes, en curso y completadas."
         badge={`${tasks.length} tareas`}
       />
+
+      <ContentPanel
+        eyebrow="Nueva tarea"
+        title="Añadir una tarea"
+        meta="Estado inicial: pendiente"
+      >
+        <TaskForm projects={projects} onAddTask={onAddTask} />
+      </ContentPanel>
 
       <ContentPanel ariaLabel="Listado de tareas">
         <div className="task-list">

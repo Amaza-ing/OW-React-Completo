@@ -4,11 +4,15 @@ import SummaryCard from "../components/common/SummaryCard";
 import ProjectCard from "../components/projects/ProjectCard";
 import TaskItem from "../components/tasks/TaskItem";
 import { projects } from "../data/projects";
-import { tasks } from "../data/tasks";
+import type { Task } from "../types/task";
 import { getProjectById, getProjectSummary } from "../utils/projectUtils";
 import { getTaskSummary } from "../utils/taskUtils";
 
-function DashboardPage() {
+type DashboardPageProps = {
+  tasks: Task[];
+};
+
+function DashboardPage({ tasks }: DashboardPageProps) {
   const projectSummary = getProjectSummary(projects);
   const taskSummary = getTaskSummary(tasks);
 
