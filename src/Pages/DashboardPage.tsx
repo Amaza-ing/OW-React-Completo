@@ -2,19 +2,12 @@ import ProjectCard from "../components/projects/ProjectCard";
 import TaskItem from "../components/tasks/TaskItem";
 import { projects } from "../data/projects";
 import { tasks } from "../data/tasks";
+import { getProjectById, getProjectSummary } from "../utils/projectUtils";
+import { getTaskSummary } from "../utils/taskUtils";
 
 function DashboardPage() {
-  const activeProjects = projects.filter(
-    (project) => project.status === "active",
-  ).length;
-
-  const completedTasks = tasks.filter(
-    (task) => task.status === "completed",
-  ).length;
-
-  const pendingTasks = tasks.filter(
-    (task) => task.status !== "completed",
-  ).length;
+  const projectSummary = getProjectSummary(projects);
+  const taskSummary = getTaskSummary(tasks);
 
   const highlightedProjects = projects.slice(0, 2);
   const recentTasks = tasks.slice(0, 3);
@@ -36,26 +29,26 @@ function DashboardPage() {
       <section className="summary-grid" aria-label="Resumen">
         <article className="summary-card">
           <span>Proyectos totales</span>
-          <strong>{projects.length}</strong>
+          <strong>{projectSummary.total}</strong>
           <p>Proyectos registrados en TaskFlow.</p>
         </article>
 
         <article className="summary-card">
           <span>Proyectos activos</span>
-          <strong>{activeProjects}</strong>
-          <p>Proyectos que se encuentran en desarrollo.</p>
+          <strong>{projectSummary.active}</strong>
+          <p>Progreso medio: {projectSummary.averageProgress}%.</p>
         </article>
 
         <article className="summary-card">
           <span>Tareas pendientes</span>
-          <strong>{pendingTasks}</strong>
-          <p>Tareas pendientes o actualmente en curso.</p>
+          <strong>{taskSummary.pending}</strong>
+          <p>{taskSummary.inProgress} tareas se encuentran en curso.</p>
         </article>
 
         <article className="summary-card">
           <span>Tareas completadas</span>
-          <strong>{completedTasks}</strong>
-          <p>Tareas terminadas dentro de los datos actuales.</p>
+          <strong>{taskSummary.completed}</strong>
+          <p>De un total de {taskSummary.total} tareas registradas.</p>
         </article>
       </section>
 
@@ -88,9 +81,7 @@ function DashboardPage() {
 
         <div className="task-list">
           {recentTasks.map((task) => {
-            const project = projects.find(
-              (currentProject) => currentProject.id === task.projectId,
-            );
+            const project = getProjectById(projects, task.projectId);
 
             return (
               <TaskItem

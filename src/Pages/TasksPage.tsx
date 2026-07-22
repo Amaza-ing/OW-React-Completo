@@ -1,6 +1,7 @@
 import TaskItem from "../components/tasks/TaskItem";
 import { projects } from "../data/projects";
 import { tasks } from "../data/tasks";
+import { getProjectById } from "../utils/projectUtils";
 
 function TasksPage() {
   return (
@@ -18,9 +19,7 @@ function TasksPage() {
       <section className="content-panel" aria-label="Listado de tareas">
         <div className="task-list">
           {tasks.map((task) => {
-            const project = projects.find(
-              (currentProject) => currentProject.id === task.projectId,
-            );
+            const project = getProjectById(projects, task.projectId);
 
             return (
               <TaskItem
