@@ -1,32 +1,14 @@
-import type { Task, TaskPriority, TaskStatus } from "../../types/task";
+import type { Task } from "../../types/task";
+import {
+  getTaskPriorityLabel,
+  getTaskStatusLabel,
+} from "../../utils/taskUtils";
 import "./TaskItem.css";
 
 type TaskItemProps = {
   task: Task;
   projectName: string;
 };
-
-function getStatusLabel(status: TaskStatus) {
-  switch (status) {
-    case "pending":
-      return "Pendiente";
-    case "in-progress":
-      return "En curso";
-    case "completed":
-      return "Completada";
-  }
-}
-
-function getPriorityLabel(priority: TaskPriority) {
-  switch (priority) {
-    case "low":
-      return "Baja";
-    case "medium":
-      return "Media";
-    case "high":
-      return "Alta";
-  }
-}
 
 function TaskItem({ task, projectName }: TaskItemProps) {
   return (
@@ -43,7 +25,7 @@ function TaskItem({ task, projectName }: TaskItemProps) {
           <span
             className={`task-item__priority task-item__priority--${task.priority}`}
           >
-            Prioridad {getPriorityLabel(task.priority)}
+            Prioridad {getTaskPriorityLabel(task.priority)}
           </span>
         </div>
 
@@ -51,7 +33,7 @@ function TaskItem({ task, projectName }: TaskItemProps) {
       </div>
 
       <div className="task-item__meta">
-        <span>{getStatusLabel(task.status)}</span>
+        <span>{getTaskStatusLabel(task.status)}</span>
         <strong>{task.dueDate}</strong>
       </div>
     </article>

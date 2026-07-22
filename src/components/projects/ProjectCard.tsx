@@ -1,20 +1,10 @@
-import type { Project, ProjectStatus } from "../../types/project";
+import type { Project } from "../../types/project";
+import { getProjectStatusLabel } from "../../utils/projectUtils";
 import "./ProjectCard.css";
 
 type ProjectCardProps = {
   project: Project;
 };
-
-function getStatusLabel(status: ProjectStatus) {
-  switch (status) {
-    case "planning":
-      return "Planificación";
-    case "active":
-      return "Activo";
-    case "completed":
-      return "Completado";
-  }
-}
 
 function ProjectCard({ project }: ProjectCardProps) {
   return (
@@ -23,7 +13,7 @@ function ProjectCard({ project }: ProjectCardProps) {
         <span
           className={`project-card__status project-card__status--${project.status}`}
         >
-          {getStatusLabel(project.status)}
+          {getProjectStatusLabel(project.status)}
         </span>
 
         <span className="project-card__members">
