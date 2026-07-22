@@ -14,15 +14,15 @@
     height: 12px;
     border-radius: 50%;
 
-    &--pending {
+    &.task-item__indicator--pending {
       background-color: #f59e0b;
     }
 
-    &--in-progress {
+    &.task-item__indicator--in-progress {
       background-color: #3b82f6;
     }
 
-    &--completed {
+    &.task-item__indicator--completed {
       background-color: #22c55e;
     }
   }
@@ -59,17 +59,17 @@
     font-size: 0.7rem;
     font-weight: 800;
 
-    &--low {
+    &.task-item__priority--low {
       color: #166534;
       background-color: #dcfce7;
     }
 
-    &--medium {
+    &.task-item__priority--medium {
       color: #92400e;
       background-color: #fef3c7;
     }
 
-    &--high {
+    &.task-item__priority--high {
       color: #991b1b;
       background-color: #fee2e2;
     }

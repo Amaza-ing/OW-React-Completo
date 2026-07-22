@@ -25,17 +25,17 @@
     font-size: 0.75rem;
     font-weight: 800;
 
-    &--planning {
+    &.project-card__status--planning {
       color: #92400e;
       background-color: #fef3c7;
     }
 
-    &--active {
+    &.project-card__status--active {
       color: #1d4ed8;
       background-color: #dbeafe;
     }
 
-    &--completed {
+    &.project-card__status--completed {
       color: #166534;
       background-color: #dcfce7;
     }

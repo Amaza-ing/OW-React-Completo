@@ -73,11 +73,14 @@
         line-height: 1;
       }
 
-      p {
-        margin-bottom: 0;
+      .summary-card__description {
         color: #64748b;
         font-size: 0.85rem;
         line-height: 1.5;
+
+        & > :last-child {
+          margin-bottom: 0;
+        }
       }
     }
   }
