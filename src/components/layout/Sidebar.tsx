@@ -1,6 +1,12 @@
+import type { ViewName } from "../../types/navigation";
 import "./Sidebar.css";
 
-function Sidebar() {
+type SidebarProps = {
+  activeView: ViewName;
+  onNavigate: (view: ViewName) => void;
+};
+
+function Sidebar({ activeView, onNavigate }: SidebarProps) {
   return (
     <aside className="sidebar">
       <nav className="sidebar__navigation" aria-label="Navegación principal">
@@ -8,21 +14,42 @@ function Sidebar() {
 
         <ul className="sidebar__list">
           <li>
-            <a className="sidebar__link" href="#dashboard">
+            <button
+              className={`sidebar__link ${
+                activeView === "dashboard" ? "sidebar__link--active" : ""
+              }`}
+              type="button"
+              aria-current={activeView === "dashboard" ? "page" : undefined}
+              onClick={() => onNavigate("dashboard")}
+            >
               Resumen
-            </a>
+            </button>
           </li>
 
           <li>
-            <a className="sidebar__link" href="#projects">
+            <button
+              className={`sidebar__link ${
+                activeView === "projects" ? "sidebar__link--active" : ""
+              }`}
+              type="button"
+              aria-current={activeView === "projects" ? "page" : undefined}
+              onClick={() => onNavigate("projects")}
+            >
               Proyectos
-            </a>
+            </button>
           </li>
 
           <li>
-            <a className="sidebar__link" href="#tasks">
+            <button
+              className={`sidebar__link ${
+                activeView === "tasks" ? "sidebar__link--active" : ""
+              }`}
+              type="button"
+              aria-current={activeView === "tasks" ? "page" : undefined}
+              onClick={() => onNavigate("tasks")}
+            >
               Tareas
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

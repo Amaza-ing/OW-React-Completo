@@ -27,11 +27,17 @@
   }
 
   .sidebar__link {
+    width: 100%;
     display: block;
     padding: 0.8rem 0.9rem;
     color: #334155;
+    background: none;
+    border: 0;
     border-radius: 0.6rem;
+    font: inherit;
     font-weight: 600;
+    text-align: left;
+    cursor: pointer;
     transition:
       color 150ms ease,
       background-color 150ms ease;
@@ -39,6 +45,16 @@
     &:hover {
       color: #1d4ed8;
       background-color: #eff6ff;
+    }
+
+    &--active {
+      color: #ffffff;
+      background-color: #2563eb;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #1d4ed8;
+      }
     }
 
     &:focus-visible {
