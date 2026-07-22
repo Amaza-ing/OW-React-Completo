@@ -10,3 +10,12 @@ export type Task = {
   priority: TaskPriority;
   dueDate: string;
 };
+
+export type NewTask = {
+  title: string;
+  projectId: string;
+  priority: TaskPriority;
+  dueDate: string;
+};
+
+export type AddTaskHandler = (task: NewTask) => void;
