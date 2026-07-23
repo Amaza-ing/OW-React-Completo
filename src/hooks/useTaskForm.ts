@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChangeEventHandler, SubmitEventHandler } from "react";
 import type { Project } from "../types/project";
-import type {
-  AddTaskHandler,
-  NewTask,
-  TaskFormFeedback,
-  TaskPriority,
+import {
+  isTaskPriority,
+  type AddTaskHandler,
+  type NewTask,
+  type TaskFormFeedback,
 } from "../types/task";
 
 type UseTaskFormOptions = {
@@ -79,7 +79,15 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
   }, []);
 
   const handlePriorityChange = useCallback<SelectChangeHandler>((event) => {
-    const priority = event.currentTarget.value as TaskPriority;
+    const priority = event.currentTarget.value;
+
+    if (!isTaskPriority(priority)) {
+      setFeedback({
+        type: "error",
+        message: "La prioridad seleccionada no es válida.",
+      });
+      return;
+    }
 
     setFormData((currentForm) => ({
       ...currentForm,

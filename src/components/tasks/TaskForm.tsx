@@ -1,7 +1,6 @@
 import { useTaskForm } from "../../hooks/useTaskForm";
 import type { Project } from "../../types/project";
-import { taskPriorities, type AddTaskHandler } from "../../types/task";
-import { getTaskPriorityLabel } from "../../utils/taskUtils";
+import { taskPriorityOptions, type AddTaskHandler } from "../../types/task";
 import "./TaskForm.css";
 
 type TaskFormProps = {
@@ -72,9 +71,9 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
             value={formData.priority}
             onChange={handlePriorityChange}
           >
-            {taskPriorities.map((priority) => (
-              <option key={priority} value={priority}>
-                {getTaskPriorityLabel(priority)}
+            {taskPriorityOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
               </option>
             ))}
           </select>

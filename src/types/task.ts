@@ -66,3 +66,7 @@ export type TaskFormFeedback =
       type: "success";
       message: string;
     };
+
+export function isTaskPriority(value: string): value is TaskPriority {
+  return taskPriorityOptions.some((option) => option.value === value);
+}
