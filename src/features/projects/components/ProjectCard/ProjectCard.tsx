@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Project } from "../../model/project";
 import { getProjectStatusLabel } from "../../utils/projectUtils";
 import "./ProjectCard.css";
@@ -22,7 +23,10 @@ function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       <div className="project-card__content">
-        <h3>{project.name}</h3>
+        <h3>
+          <Link to={`/projects/${project.id}`}>{project.name}</Link>
+        </h3>
+
         <p>{project.description}</p>
       </div>
 
