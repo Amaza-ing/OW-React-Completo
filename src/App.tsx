@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import type { ReactNode } from "react";
 import AppLayout from "./components/layout/AppLayout";
 import { tasks as initialTasks } from "./data/tasks";
 import DashboardPage from "./pages/DashboardPage";
@@ -6,6 +7,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import TasksPage from "./pages/TasksPage";
 import type { NavigateHandler, ViewName } from "./types/navigation";
 import type { AddTaskHandler, Task } from "./types/task";
+import { assertNever } from "./utils/assertNever";
 import "./App.css";
 
 function App() {
@@ -27,8 +29,8 @@ function App() {
     setTaskItems((currentTasks) => [newTask, ...currentTasks]);
   }, []);
 
-  function renderPage() {
-    switch (activeView) {
+  function renderPage(view: ViewName): ReactNode {
+    switch (view) {
       case "dashboard":
         return <DashboardPage tasks={taskItems} />;
 
@@ -37,12 +39,15 @@ function App() {
 
       case "tasks":
         return <TasksPage tasks={taskItems} onAddTask={handleAddTask} />;
+
+      default:
+        return assertNever(view);
     }
   }
 
   return (
     <AppLayout activeView={activeView} onNavigate={handleNavigate}>
-      {renderPage()}
+      {renderPage(activeView)}
     </AppLayout>
   );
 }
