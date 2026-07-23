@@ -1,23 +1,18 @@
 import { useCallback, useState } from "react";
-import type { ReactNode } from "react";
-import AppLayout from "../shared/components/layout/AppLayout";
-import { tasks as initialTasks } from "../features/tasks";
+import { Route, Routes } from "react-router";
+import {
+  tasks as initialTasks,
+  type AddTaskHandler,
+  type Task,
+} from "../features/tasks";
 import DashboardPage from "../pages/DashboardPage";
 import ProjectsPage from "../pages/ProjectsPage";
 import TasksPage from "../pages/TasksPage";
-import type { NavigateHandler, ViewName } from "../shared/model/navigation";
-import type { AddTaskHandler, Task } from "../features/tasks";
-import { assertNever } from "../shared/utils/assertNever";
+import AppLayout from "../shared/components/layout/AppLayout";
 import "./App.css";
 
 function App() {
-  const [activeView, setActiveView] = useState<ViewName>("dashboard");
-
   const [taskItems, setTaskItems] = useState<Task[]>(initialTasks);
-
-  const handleNavigate = useCallback<NavigateHandler>((view) => {
-    setActiveView(view);
-  }, []);
 
   const handleAddTask = useCallback<AddTaskHandler>((taskData) => {
     const newTask: Task = {
@@ -29,26 +24,19 @@ function App() {
     setTaskItems((currentTasks) => [newTask, ...currentTasks]);
   }, []);
 
-  function renderPage(view: ViewName): ReactNode {
-    switch (view) {
-      case "dashboard":
-        return <DashboardPage tasks={taskItems} />;
-
-      case "projects":
-        return <ProjectsPage />;
-
-      case "tasks":
-        return <TasksPage tasks={taskItems} onAddTask={handleAddTask} />;
-
-      default:
-        return assertNever(view);
-    }
-  }
-
   return (
-    <AppLayout activeView={activeView} onNavigate={handleNavigate}>
-      {renderPage(activeView)}
-    </AppLayout>
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route index element={<DashboardPage tasks={taskItems} />} />
+
+        <Route path="projects" element={<ProjectsPage />} />
+
+        <Route
+          path="tasks"
+          element={<TasksPage tasks={taskItems} onAddTask={handleAddTask} />}
+        />
+      </Route>
+    </Routes>
   );
 }
 
