@@ -1,5 +1,5 @@
 import PageHeader from "../shared/components/common/PageHeader";
-import ProjectCard from "../features/projects/components/ProjectCard";
+import ProjectCard from "../features/projects/components/ProjectCard/ProjectCard";
 import { projects } from "../features/projects/data/projects";
 
 function ProjectsPage() {

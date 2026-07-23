@@ -1,7 +1,7 @@
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 import SummaryCard from "../shared/components/common/SummaryCard";
-import ProjectCard from "../features/projects/components/ProjectCard";
+import ProjectCard from "../features/projects/components/ProjectCard/ProjectCard";
 import TaskItem from "../features/tasks/components/TaskItem/TaskItem";
 import { projects } from "../features/projects/data/projects";
 import type { Task } from "../features/tasks/model/task";
