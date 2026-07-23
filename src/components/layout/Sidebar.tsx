@@ -1,4 +1,8 @@
-import type { NavigateHandler, ViewName } from "../../types/navigation";
+import {
+  navigationItems,
+  type NavigateHandler,
+  type ViewName,
+} from "../../types/navigation";
 import "./Sidebar.css";
 
 type SidebarProps = {
@@ -13,44 +17,24 @@ function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <p className="sidebar__title">Espacio de trabajo</p>
 
         <ul className="sidebar__list">
-          <li>
-            <button
-              className={`sidebar__link ${
-                activeView === "dashboard" ? "sidebar__link--active" : ""
-              }`}
-              type="button"
-              aria-current={activeView === "dashboard" ? "page" : undefined}
-              onClick={() => onNavigate("dashboard")}
-            >
-              Resumen
-            </button>
-          </li>
+          {navigationItems.map((item) => {
+            const isActive = activeView === item.id;
 
-          <li>
-            <button
-              className={`sidebar__link ${
-                activeView === "projects" ? "sidebar__link--active" : ""
-              }`}
-              type="button"
-              aria-current={activeView === "projects" ? "page" : undefined}
-              onClick={() => onNavigate("projects")}
-            >
-              Proyectos
-            </button>
-          </li>
-
-          <li>
-            <button
-              className={`sidebar__link ${
-                activeView === "tasks" ? "sidebar__link--active" : ""
-              }`}
-              type="button"
-              aria-current={activeView === "tasks" ? "page" : undefined}
-              onClick={() => onNavigate("tasks")}
-            >
-              Tareas
-            </button>
-          </li>
+            return (
+              <li key={item.id}>
+                <button
+                  className={`sidebar__link ${
+                    isActive ? "sidebar__link--active" : ""
+                  }`}
+                  type="button"
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => onNavigate(item.id)}
+                >
+                  {item.label}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
