@@ -1,6 +1,22 @@
-export const projectStatuses = ["planning", "active", "completed"] as const;
+export const projectStatusOptions = [
+  {
+    value: "planning",
+    label: "Planificación",
+  },
+  {
+    value: "active",
+    label: "Activo",
+  },
+  {
+    value: "completed",
+    label: "Completado",
+  },
+] as const satisfies readonly {
+  value: string;
+  label: string;
+}[];
 
-export type ProjectStatus = (typeof projectStatuses)[number];
+export type ProjectStatus = (typeof projectStatusOptions)[number]["value"];
 
 export interface Project {
   id: string;
