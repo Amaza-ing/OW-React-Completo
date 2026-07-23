@@ -1,5 +1,11 @@
-import type { Task, TaskPriority, TaskStatus } from "../types/task";
-import { assertNever } from "./assertNever";
+import {
+  taskPriorityOptions,
+  taskStatusOptions,
+  type Task,
+  type TaskPriority,
+  type TaskStatus,
+} from "../types/task";
+import { getOptionLabel } from "./optionUtils";
 
 export interface TaskSummary {
   total: number;
@@ -9,35 +15,11 @@ export interface TaskSummary {
 }
 
 export function getTaskStatusLabel(status: TaskStatus): string {
-  switch (status) {
-    case "pending":
-      return "Pendiente";
-
-    case "in-progress":
-      return "En curso";
-
-    case "completed":
-      return "Completada";
-
-    default:
-      return assertNever(status);
-  }
+  return getOptionLabel(taskStatusOptions, status);
 }
 
 export function getTaskPriorityLabel(priority: TaskPriority): string {
-  switch (priority) {
-    case "low":
-      return "Baja";
-
-    case "medium":
-      return "Media";
-
-    case "high":
-      return "Alta";
-
-    default:
-      return assertNever(priority);
-  }
+  return getOptionLabel(taskPriorityOptions, priority);
 }
 
 export function getTaskSummary(tasks: Task[]): TaskSummary {

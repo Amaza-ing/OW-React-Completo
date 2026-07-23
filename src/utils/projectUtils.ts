@@ -1,5 +1,9 @@
-import type { Project, ProjectStatus } from "../types/project";
-import { assertNever } from "./assertNever";
+import {
+  projectStatusOptions,
+  type Project,
+  type ProjectStatus,
+} from "../types/project";
+import { getOptionLabel } from "./optionUtils";
 
 export interface ProjectSummary {
   total: number;
@@ -9,19 +13,7 @@ export interface ProjectSummary {
 }
 
 export function getProjectStatusLabel(status: ProjectStatus): string {
-  switch (status) {
-    case "planning":
-      return "Planificación";
-
-    case "active":
-      return "Activo";
-
-    case "completed":
-      return "Completado";
-
-    default:
-      return assertNever(status);
-  }
+  return getOptionLabel(projectStatusOptions, status);
 }
 
 export function getProjectById(
