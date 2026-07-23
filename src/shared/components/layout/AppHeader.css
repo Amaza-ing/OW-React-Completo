@@ -24,6 +24,7 @@
     font: inherit;
     text-align: left;
     cursor: pointer;
+    text-decoration: none;
 
     &:focus-visible {
       outline: 3px solid #93c5fd;

@@ -1,17 +1,13 @@
-import type { NavigateHandler } from "../../model/navigation";
+import { Link } from "react-router";
 import "./AppHeader.css";
 
-type AppHeaderProps = {
-  onNavigate: NavigateHandler;
-};
-
-function AppHeader({ onNavigate }: AppHeaderProps) {
+function AppHeader() {
   return (
     <header className="app-header">
-      <button
+      <Link
         className="app-header__brand"
-        type="button"
-        onClick={() => onNavigate("dashboard")}
+        to="/"
+        aria-label="Ir al resumen de TaskFlow"
       >
         <span className="app-header__logo">TF</span>
 
@@ -19,7 +15,7 @@ function AppHeader({ onNavigate }: AppHeaderProps) {
           <strong>TaskFlow</strong>
           <small>Gestión de proyectos</small>
         </span>
-      </button>
+      </Link>
 
       <div className="app-header__user">
         <span className="app-header__avatar">AM</span>
