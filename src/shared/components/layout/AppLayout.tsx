@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { NavigateHandler, ViewName } from "../../types/navigation";
+import type { NavigateHandler, ViewName } from "../../model/navigation";
 import AppHeader from "./AppHeader";
 import Sidebar from "./Sidebar";
 import "./AppLayout.css";

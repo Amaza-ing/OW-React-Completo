@@ -2,8 +2,8 @@ import {
   projectStatusOptions,
   type Project,
   type ProjectStatus,
-} from "../types/project";
-import { getOptionLabel } from "./optionUtils";
+} from "../model/project";
+import { getOptionLabel } from "../../../shared/utils/optionUtils";
 
 export interface ProjectSummary {
   total: number;

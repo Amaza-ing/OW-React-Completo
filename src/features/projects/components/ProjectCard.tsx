@@ -1,5 +1,5 @@
-import type { Project } from "../../types/project";
-import { getProjectStatusLabel } from "../../utils/projectUtils";
+import type { Project } from "../model/project";
+import { getProjectStatusLabel } from "../utils/projectUtils";
 import "./ProjectCard.css";
 
 type ProjectCardProps = {

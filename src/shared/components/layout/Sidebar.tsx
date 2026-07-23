@@ -2,7 +2,7 @@ import {
   navigationItems,
   type NavigateHandler,
   type ViewName,
-} from "../../types/navigation";
+} from "../../model/navigation";
 import "./Sidebar.css";
 
 type SidebarProps = {

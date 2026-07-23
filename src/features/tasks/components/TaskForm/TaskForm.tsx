@@ -1,6 +1,6 @@
 import { useTaskForm } from "../../hooks/useTaskForm";
-import type { Project } from "../../types/project";
-import { taskPriorityOptions, type AddTaskHandler } from "../../types/task";
+import type { Project } from "../../../projects/model/project";
+import { taskPriorityOptions, type AddTaskHandler } from "../../model/task";
 import "./TaskForm.css";
 
 type TaskFormProps = {

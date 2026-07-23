@@ -1,4 +1,4 @@
-import type { NavigateHandler } from "../../types/navigation";
+import type { NavigateHandler } from "../../model/navigation";
 import "./AppHeader.css";
 
 type AppHeaderProps = {

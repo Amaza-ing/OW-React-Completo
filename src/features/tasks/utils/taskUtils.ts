@@ -4,8 +4,8 @@ import {
   type Task,
   type TaskPriority,
   type TaskStatus,
-} from "../types/task";
-import { getOptionLabel } from "./optionUtils";
+} from "../model/task";
+import { getOptionLabel } from "../../../shared/utils/optionUtils";
 
 export interface TaskSummary {
   total: number;

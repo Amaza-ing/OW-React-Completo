@@ -1,13 +1,13 @@
 import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
-import AppLayout from "./components/layout/AppLayout";
-import { tasks as initialTasks } from "./data/tasks";
+import AppLayout from "./shared/components/layout/AppLayout";
+import { tasks as initialTasks } from "./features/tasks/data/tasks";
 import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import TasksPage from "./pages/TasksPage";
-import type { NavigateHandler, ViewName } from "./types/navigation";
-import type { AddTaskHandler, Task } from "./types/task";
-import { assertNever } from "./utils/assertNever";
+import type { NavigateHandler, ViewName } from "./shared/model/navigation";
+import type { AddTaskHandler, Task } from "./features/tasks/model/task";
+import { assertNever } from "./shared/utils/assertNever";
 import "./App.css";
 
 function App() {

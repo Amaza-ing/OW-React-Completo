@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChangeEventHandler, SubmitEventHandler } from "react";
-import type { Project } from "../types/project";
+import type { Project } from "../../projects/model/project";
 import {
   isTaskPriority,
   type AddTaskHandler,
   type NewTask,
   type TaskFormFeedback,
-} from "../types/task";
+} from "../model/task";
 
 type UseTaskFormOptions = {
   projects: Project[];
