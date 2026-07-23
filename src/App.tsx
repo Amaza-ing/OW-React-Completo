@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AppLayout from "./components/layout/AppLayout";
 import { tasks as initialTasks } from "./data/tasks";
 import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import TasksPage from "./pages/TasksPage";
-import type { ViewName } from "./types/navigation";
-import type { NewTask, Task } from "./types/task";
+import type { NavigateHandler, ViewName } from "./types/navigation";
+import type { AddTaskHandler, Task } from "./types/task";
 import "./App.css";
 
 function App() {
@@ -13,11 +13,11 @@ function App() {
 
   const [taskItems, setTaskItems] = useState<Task[]>(initialTasks);
 
-  function handleNavigate(view: ViewName) {
+  const handleNavigate = useCallback<NavigateHandler>((view) => {
     setActiveView(view);
-  }
+  }, []);
 
-  function handleAddTask(taskData: NewTask) {
+  const handleAddTask = useCallback<AddTaskHandler>((taskData) => {
     const newTask: Task = {
       id: `task-${Date.now()}`,
       status: "pending",
@@ -25,7 +25,7 @@ function App() {
     };
 
     setTaskItems((currentTasks) => [newTask, ...currentTasks]);
-  }
+  }, []);
 
   function renderPage() {
     switch (activeView) {
