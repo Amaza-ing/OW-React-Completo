@@ -1,10 +1,8 @@
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
-import { TaskForm } from "../features/tasks";
-import { TaskItem } from "../features/tasks";
-import { projects } from "../features/projects/data/projects";
+import { projects, getProjectById } from "../features/projects";
+import { TaskForm, TaskItem } from "../features/tasks";
 import type { AddTaskHandler, Task } from "../features/tasks";
-import { getProjectById } from "../features/projects";
 
 type TasksPageProps = {
   tasks: Task[];

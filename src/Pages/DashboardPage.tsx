@@ -1,12 +1,14 @@
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 import SummaryCard from "../shared/components/common/SummaryCard";
-import ProjectCard from "../features/projects/components/ProjectCard/ProjectCard";
-import { TaskItem } from "../features/tasks";
-import { projects } from "../features/projects/data/projects";
+import {
+  ProjectCard,
+  projects,
+  getProjectById,
+  getProjectSummary,
+} from "../features/projects";
+import { TaskItem, getTaskSummary } from "../features/tasks";
 import type { Task } from "../features/tasks";
-import { getProjectById, getProjectSummary } from "../features/projects";
-import { getTaskSummary } from "../features/tasks";
 
 type DashboardPageProps = {
   tasks: Task[];
