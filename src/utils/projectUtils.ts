@@ -1,20 +1,26 @@
 import type { Project, ProjectStatus } from "../types/project";
+import { assertNever } from "./assertNever";
 
-export type ProjectSummary = {
+export interface ProjectSummary {
   total: number;
   active: number;
   completed: number;
   averageProgress: number;
-};
+}
 
 export function getProjectStatusLabel(status: ProjectStatus): string {
   switch (status) {
     case "planning":
       return "Planificación";
+
     case "active":
       return "Activo";
+
     case "completed":
       return "Completado";
+
+    default:
+      return assertNever(status);
   }
 }
 
