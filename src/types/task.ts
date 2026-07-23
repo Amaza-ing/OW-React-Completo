@@ -1,10 +1,44 @@
-export const taskStatuses = ["pending", "in-progress", "completed"] as const;
+export const taskStatusOptions = [
+  {
+    value: "pending",
+    label: "Pendiente",
+  },
+  {
+    value: "in-progress",
+    label: "En curso",
+  },
+  {
+    value: "completed",
+    label: "Completada",
+  },
+] as const satisfies readonly {
+  value: string;
+  label: string;
+}[];
 
-export const taskPriorities = ["low", "medium", "high"] as const;
+export const taskPriorityOptions = [
+  {
+    value: "low",
+    label: "Baja",
+  },
+  {
+    value: "medium",
+    label: "Media",
+  },
+  {
+    value: "high",
+    label: "Alta",
+  },
+] as const satisfies readonly {
+  value: string;
+  label: string;
+}[];
 
-export type TaskStatus = (typeof taskStatuses)[number];
+export type TaskStatusOption = (typeof taskStatusOptions)[number];
+export type TaskStatus = TaskStatusOption["value"];
 
-export type TaskPriority = (typeof taskPriorities)[number];
+export type TaskPriorityOption = (typeof taskPriorityOptions)[number];
+export type TaskPriority = TaskPriorityOption["value"];
 
 export interface NewTask {
   title: string;

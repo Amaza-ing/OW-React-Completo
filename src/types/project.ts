@@ -16,7 +16,8 @@ export const projectStatusOptions = [
   label: string;
 }[];
 
-export type ProjectStatus = (typeof projectStatusOptions)[number]["value"];
+export type ProjectStatusOption = (typeof projectStatusOptions)[number];
+export type ProjectStatus = ProjectStatusOption["value"];
 
 export interface Project {
   id: string;

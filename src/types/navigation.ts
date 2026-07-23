@@ -11,10 +11,12 @@ export const navigationItems = [
     id: "tasks",
     label: "Tareas",
   },
-] as const;
+] as const satisfies readonly {
+  id: string;
+  label: string;
+}[];
 
 export type NavigationItem = (typeof navigationItems)[number];
-
 export type ViewName = NavigationItem["id"];
 
 export type NavigateHandler = (view: ViewName) => void;
