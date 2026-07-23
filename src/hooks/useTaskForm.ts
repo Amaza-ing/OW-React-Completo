@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChangeEventHandler, SubmitEventHandler } from "react";
 import type { Project } from "../types/project";
-import type { AddTaskHandler, NewTask, TaskPriority } from "../types/task";
+import type {
+  AddTaskHandler,
+  NewTask,
+  TaskFormFeedback,
+  TaskPriority,
+} from "../types/task";
 
 type UseTaskFormOptions = {
   projects: Project[];
@@ -35,7 +40,9 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     createInitialTask(projects),
   );
 
-  const [error, setError] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<TaskFormFeedback>({
+    type: "idle",
+  });
 
   const focusTitleInput = useCallback(() => {
     titleInputRef.current?.focus();
@@ -47,7 +54,9 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
 
   const resetForm = useCallback(() => {
     setFormData(createInitialTask(projects));
-    setError(null);
+    setFeedback({
+      type: "idle",
+    });
     focusTitleInput();
   }, [projects, focusTitleInput]);
 
@@ -95,7 +104,10 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
       const dueDate = formData.dueDate.trim();
 
       if (title === "" || formData.projectId === "" || dueDate === "") {
-        setError("Completa el título, el proyecto y la fecha.");
+        setFeedback({
+          type: "error",
+          message: "Completa el título, el proyecto y la fecha.",
+        });
 
         focusTitleInput();
         return;
@@ -107,14 +119,21 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
         dueDate,
       });
 
-      resetForm();
+      setFormData(createInitialTask(projects));
+
+      setFeedback({
+        type: "success",
+        message: "Tarea añadida correctamente.",
+      });
+
+      focusTitleInput();
     },
-    [formData, focusTitleInput, onAddTask, resetForm],
+    [formData, focusTitleInput, onAddTask, projects],
   );
 
   return {
     formData,
-    error,
+    feedback,
     titleInputRef,
     handleTitleChange,
     handleProjectChange,

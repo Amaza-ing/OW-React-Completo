@@ -46,14 +46,24 @@
     }
   }
 
-  .task-form__error {
+  .task-form__feedback {
     margin: 0;
     padding: 0.8rem 1rem;
-    color: #991b1b;
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
+    border: 1px solid transparent;
     border-radius: 0.65rem;
     font-size: 0.9rem;
+  }
+
+  .task-form__feedback--error {
+    color: #991b1b;
+    background-color: #fef2f2;
+    border-color: #fecaca;
+  }
+
+  .task-form__feedback--success {
+    color: #166534;
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
   }
 
   .task-form__footer {

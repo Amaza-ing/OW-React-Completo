@@ -1,6 +1,7 @@
-import type { Project } from "../../types/project";
-import type { AddTaskHandler } from "../../types/task";
 import { useTaskForm } from "../../hooks/useTaskForm";
+import type { Project } from "../../types/project";
+import { taskPriorities, type AddTaskHandler } from "../../types/task";
+import { getTaskPriorityLabel } from "../../utils/taskUtils";
 import "./TaskForm.css";
 
 type TaskFormProps = {
@@ -11,7 +12,7 @@ type TaskFormProps = {
 function TaskForm({ projects, onAddTask }: TaskFormProps) {
   const {
     formData,
-    error,
+    feedback,
     titleInputRef,
     handleTitleChange,
     handleProjectChange,
@@ -71,9 +72,11 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
             value={formData.priority}
             onChange={handlePriorityChange}
           >
-            <option value="low">Baja</option>
-            <option value="medium">Media</option>
-            <option value="high">Alta</option>
+            {taskPriorities.map((priority) => (
+              <option key={priority} value={priority}>
+                {getTaskPriorityLabel(priority)}
+              </option>
+            ))}
           </select>
         </label>
 
@@ -92,9 +95,12 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
         </label>
       </div>
 
-      {error !== null && (
-        <p className="task-form__error" role="alert">
-          {error}
+      {feedback.type !== "idle" && (
+        <p
+          className={`task-form__feedback task-form__feedback--${feedback.type}`}
+          role={feedback.type === "error" ? "alert" : "status"}
+        >
+          {feedback.message}
         </p>
       )}
 
