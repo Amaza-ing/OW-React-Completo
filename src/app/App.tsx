@@ -6,6 +6,7 @@ import {
   type Task,
 } from "../features/tasks";
 import DashboardPage from "../pages/DashboardPage";
+import ProjectDetailPage from "../pages/ProjectDetailPage";
 import ProjectsPage from "../pages/ProjectsPage";
 import TasksPage from "../pages/TasksPage";
 import AppLayout from "../shared/components/layout/AppLayout";
@@ -30,6 +31,8 @@ function App() {
         <Route index element={<DashboardPage tasks={taskItems} />} />
 
         <Route path="projects" element={<ProjectsPage />} />
+
+        <Route path="projects/:projectId" element={<ProjectDetailPage />} />
 
         <Route
           path="tasks"
