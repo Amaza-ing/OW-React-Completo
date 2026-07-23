@@ -1,6 +1,8 @@
-export type ProjectStatus = "planning" | "active" | "completed";
+export const projectStatuses = ["planning", "active", "completed"] as const;
 
-export type Project = {
+export type ProjectStatus = (typeof projectStatuses)[number];
+
+export interface Project {
   id: string;
   name: string;
   description: string;
@@ -8,4 +10,4 @@ export type Project = {
   progress: number;
   dueDate: string;
   members: number;
-};
+}

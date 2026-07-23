@@ -1,21 +1,34 @@
-export type TaskStatus = "pending" | "in-progress" | "completed";
+export const taskStatuses = ["pending", "in-progress", "completed"] as const;
 
-export type TaskPriority = "low" | "medium" | "high";
+export const taskPriorities = ["low", "medium", "high"] as const;
 
-export type Task = {
+export type TaskStatus = (typeof taskStatuses)[number];
+
+export type TaskPriority = (typeof taskPriorities)[number];
+
+export interface NewTask {
+  title: string;
+  projectId: string;
+  priority: TaskPriority;
+  dueDate: string;
+}
+
+export interface Task extends NewTask {
   id: string;
-  title: string;
-  projectId: string;
   status: TaskStatus;
-  priority: TaskPriority;
-  dueDate: string;
-};
-
-export type NewTask = {
-  title: string;
-  projectId: string;
-  priority: TaskPriority;
-  dueDate: string;
-};
+}
 
 export type AddTaskHandler = (task: NewTask) => void;
+
+export type TaskFormFeedback =
+  | {
+      type: "idle";
+    }
+  | {
+      type: "error";
+      message: string;
+    }
+  | {
+      type: "success";
+      message: string;
+    };
