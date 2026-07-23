@@ -5,7 +5,7 @@ import ProjectCard from "../features/projects/components/ProjectCard/ProjectCard
 import TaskItem from "../features/tasks/components/TaskItem/TaskItem";
 import { projects } from "../features/projects/data/projects";
 import type { Task } from "../features/tasks/model/task";
-import { getProjectById, getProjectSummary } from "../features/projects/utils/projectUtils";
+import { getProjectById, getProjectSummary } from "../features/projects";
 import { getTaskSummary } from "../features/tasks/utils/taskUtils";
 
 type DashboardPageProps = {

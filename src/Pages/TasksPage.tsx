@@ -4,7 +4,7 @@ import TaskForm from "../features/tasks/components/TaskForm/TaskForm";
 import TaskItem from "../features/tasks/components/TaskItem/TaskItem";
 import { projects } from "../features/projects/data/projects";
 import type { AddTaskHandler, Task } from "../features/tasks/model/task";
-import { getProjectById } from "../features/projects/utils/projectUtils";
+import { getProjectById } from "../features/projects";
 
 type TasksPageProps = {
   tasks: Task[];
