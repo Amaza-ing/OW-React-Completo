@@ -8,6 +8,13 @@ function TasksPage() {
 
   return (
     <div className="page">
+      <title>{`TaskFlow | ${tasks.length} tareas`}</title>
+
+      <meta
+        name="description"
+        content="Gestiona y consulta las tareas de TaskFlow."
+      />
+
       <PageHeader
         eyebrow="Tareas"
         title="Todas las tareas"
