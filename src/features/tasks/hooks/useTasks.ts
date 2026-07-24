@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer } from "react";
 import { tasks as initialTasks } from "../data/tasks";
-import type { AddTaskHandler, Task } from "../model/task";
+import type { AddTaskHandler, ResetTasksHandler, Task } from "../model/task";
 import { tasksReducer } from "../reducers/tasksReducer";
 import { loadTasks, saveTasks } from "../storage/tasksStorage";
 
@@ -24,8 +24,16 @@ export function useTasks() {
     });
   }, []);
 
+  const resetTasks = useCallback<ResetTasksHandler>(() => {
+    dispatch({
+      type: "tasks/reset",
+      payload: initialTasks,
+    });
+  }, []);
+
   return {
     tasks,
     addTask,
+    resetTasks,
   };
 }
