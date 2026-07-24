@@ -16,21 +16,25 @@ function ProjectDetailPage() {
 
   if (project === undefined) {
     return (
-      <div className="page">
+      <div className="page project-detail-page">
         <PageHeader
           eyebrow="Proyectos"
           title="Proyecto no encontrado"
           description="No existe ningún proyecto con el identificador indicado."
         />
 
-        <ContentPanel>
-          <button
-            className="page-action page-action--secondary"
-            type="button"
-            onClick={() => navigate("/projects")}
-          >
-            Volver a proyectos
-          </button>
+        <ContentPanel
+          actions={
+            <button
+              className="page-action page-action--secondary"
+              type="button"
+              onClick={() => navigate("/projects")}
+            >
+              Volver a proyectos
+            </button>
+          }
+        >
+          <p>Revisa la dirección del proyecto.</p>
         </ContentPanel>
       </div>
     );
@@ -49,6 +53,15 @@ function ProjectDetailPage() {
         eyebrow="Información"
         title="Resumen del proyecto"
         meta={`${project.progress}% completado`}
+        actions={
+          <button
+            className="page-action page-action--secondary"
+            type="button"
+            onClick={() => navigate("/projects")}
+          >
+            Volver a proyectos
+          </button>
+        }
       >
         <div className="project-detail-page__data">
           <p>
@@ -62,16 +75,6 @@ function ProjectDetailPage() {
           <p>
             <strong>Progreso:</strong> {project.progress}%
           </p>
-        </div>
-
-        <div className="project-detail-page__actions">
-          <button
-            className="page-action page-action--secondary"
-            type="button"
-            onClick={() => navigate("/projects")}
-          >
-            Volver a proyectos
-          </button>
         </div>
       </ContentPanel>
     </div>
