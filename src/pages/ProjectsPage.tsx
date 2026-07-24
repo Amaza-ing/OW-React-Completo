@@ -1,6 +1,6 @@
 import type { ChangeEventHandler } from "react";
 import { useSearchParams } from "react-router";
-import { ProjectList, projects } from "../features/projects";
+import { ProjectResults, projects } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 
@@ -55,15 +55,13 @@ function ProjectsPage() {
         </label>
       </ContentPanel>
 
-      <ProjectList projects={filteredProjects} />
-
-      {filteredProjects.length === 0 && (
+      <ProjectResults projects={filteredProjects}>
         <ContentPanel>
           <p className="projects-page__empty">
             No se han encontrado proyectos para: <strong>{search}</strong>
           </p>
         </ContentPanel>
-      )}
+      </ProjectResults>
     </div>
   );
 }
