@@ -1,5 +1,5 @@
-import { useTaskForm } from "../../hooks/useTaskForm";
 import type { Project } from "../../../projects/model/project";
+import { useTaskForm } from "../../hooks/useTaskForm";
 import { taskPriorityOptions, type AddTaskHandler } from "../../model/task";
 import "./TaskForm.css";
 
@@ -17,7 +17,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
     handleProjectChange,
     handlePriorityChange,
     handleDueDateChange,
-    handleSubmit,
+    submitAction,
     resetForm,
   } = useTaskForm({
     projects,
@@ -25,7 +25,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
   });
 
   return (
-    <form className="task-form" onSubmit={handleSubmit} noValidate>
+    <form className="task-form" action={submitAction} noValidate>
       <div className="task-form__grid">
         <label className="task-form__field">
           <span>Título</span>

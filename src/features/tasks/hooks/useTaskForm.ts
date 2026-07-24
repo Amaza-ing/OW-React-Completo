@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEventHandler, SubmitEventHandler } from "react";
+import type { ChangeEventHandler } from "react";
 import type { Project } from "../../projects/model/project";
 import {
   isTaskPriority,
@@ -17,7 +17,7 @@ type InputChangeHandler = ChangeEventHandler<HTMLInputElement>;
 
 type SelectChangeHandler = ChangeEventHandler<HTMLSelectElement>;
 
-type TaskFormSubmitHandler = SubmitEventHandler<HTMLFormElement>;
+type TaskFormAction = (formData: FormData) => void;
 
 const emptyTask: NewTask = {
   title: "",
@@ -31,6 +31,12 @@ function createInitialTask(projects: Project[]): NewTask {
     ...emptyTask,
     projectId: projects[0]?.id ?? "",
   };
+}
+
+function getTextField(formData: FormData, fieldName: string): string {
+  const value = formData.get(fieldName);
+
+  return typeof value === "string" ? value.trim() : "";
 }
 
 export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
@@ -54,9 +60,11 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
 
   const resetForm = useCallback(() => {
     setFormData(createInitialTask(projects));
+
     setFeedback({
       type: "idle",
     });
+
     focusTitleInput();
   }, [projects, focusTitleInput]);
 
@@ -86,6 +94,7 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
         type: "error",
         message: "La prioridad seleccionada no es válida.",
       });
+
       return;
     }
 
@@ -104,14 +113,22 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     }));
   }, []);
 
-  const handleSubmit = useCallback<TaskFormSubmitHandler>(
-    (event) => {
-      event.preventDefault();
+  const submitAction = useCallback<TaskFormAction>(
+    (submittedData) => {
+      const title = getTextField(submittedData, "title");
 
-      const title = formData.title.trim();
-      const dueDate = formData.dueDate.trim();
+      const projectId = getTextField(submittedData, "projectId");
 
-      if (title === "" || formData.projectId === "" || dueDate === "") {
+      const priority = getTextField(submittedData, "priority");
+
+      const dueDate = getTextField(submittedData, "dueDate");
+
+      if (
+        title === "" ||
+        projectId === "" ||
+        dueDate === "" ||
+        !isTaskPriority(priority)
+      ) {
         setFeedback({
           type: "error",
           message: "Completa el título, el proyecto y la fecha.",
@@ -122,8 +139,9 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
       }
 
       onAddTask({
-        ...formData,
         title,
+        projectId,
+        priority,
         dueDate,
       });
 
@@ -136,7 +154,7 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
 
       focusTitleInput();
     },
-    [formData, focusTitleInput, onAddTask, projects],
+    [focusTitleInput, onAddTask, projects],
   );
 
   return {
@@ -147,7 +165,7 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     handleProjectChange,
     handlePriorityChange,
     handleDueDateChange,
-    handleSubmit,
+    submitAction,
     resetForm,
   };
 }
