@@ -1,9 +1,14 @@
 import "./App.css";
 import "./other.css";
 import AppRoutes from "./AppRoutes";
+import AppProviders from "./AppProviders";
 
 function App() {
-  return <AppRoutes />;
+  return (
+    <AppProviders>
+      <AppRoutes />;
+    </AppProviders>
+  );
 }
 
 export default App;
