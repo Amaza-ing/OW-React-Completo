@@ -52,12 +52,6 @@ function getTextField(formData: FormData, fieldName: string): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function wait(milliseconds: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds);
-  });
-}
-
 export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -125,6 +119,7 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
 
       if (intent === "reset") {
         resetFields();
+
         return initialFeedback;
       }
 
@@ -150,9 +145,7 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
         };
       }
 
-      await wait(700);
-
-      onAddTask({
+      await onAddTask({
         title,
         projectId,
         priority,

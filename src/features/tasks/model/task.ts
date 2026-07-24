@@ -52,7 +52,7 @@ export interface Task extends NewTask {
   status: TaskStatus;
 }
 
-export type AddTaskHandler = (task: NewTask) => void;
+export type AddTaskHandler = (task: NewTask) => void | Promise<void>;
 
 export type ResetTasksHandler = () => void;
 
