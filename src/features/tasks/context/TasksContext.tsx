@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import type { ReactNode } from "react";
 import { useTasks } from "../hooks/useTasks";
 import type { AddTaskHandler, ResetTasksHandler, Task } from "../model/task";
@@ -33,7 +33,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTasksContext() {
-  const context = useContext(TasksContext);
+  const context = use(TasksContext);
 
   if (context === undefined) {
     throw new Error("useTasksContext debe utilizarse dentro de TasksProvider");
