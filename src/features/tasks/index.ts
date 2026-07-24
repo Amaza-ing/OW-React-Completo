@@ -9,6 +9,7 @@ export { useTasks } from "./hooks/useTasks";
 export type {
   AddTaskHandler,
   NewTask,
+  ResetTasksHandler,
   Task,
   TaskFormFeedback,
   TaskPriority,
