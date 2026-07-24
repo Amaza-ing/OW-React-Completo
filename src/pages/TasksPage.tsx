@@ -4,7 +4,7 @@ import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 
 function TasksPage() {
-  const { tasks, addTask } = useTasksContext();
+  const { tasks, addTask, resetTasks } = useTasksContext();
 
   return (
     <div className="page">
@@ -23,7 +23,18 @@ function TasksPage() {
         <TaskForm projects={projects} onAddTask={addTask} />
       </ContentPanel>
 
-      <ContentPanel ariaLabel="Listado de tareas">
+      <ContentPanel
+        ariaLabel="Listado de tareas"
+        actions={
+          <button
+            className="page-action page-action--secondary"
+            type="button"
+            onClick={resetTasks}
+          >
+            Restablecer tareas
+          </button>
+        }
+      >
         <div className="task-list">
           {tasks.map((task) => {
             const project = getProjectById(projects, task.projectId);
