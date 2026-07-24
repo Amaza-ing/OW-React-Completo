@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import type { ChangeEventHandler } from "react";
 import type { Project } from "../../projects/model/project";
 import {
@@ -17,13 +23,20 @@ type InputChangeHandler = ChangeEventHandler<HTMLInputElement>;
 
 type SelectChangeHandler = ChangeEventHandler<HTMLSelectElement>;
 
-type TaskFormAction = (formData: FormData) => void;
+type TaskFormAction = (
+  previousFeedback: TaskFormFeedback,
+  formData: FormData,
+) => Promise<TaskFormFeedback>;
 
 const emptyTask: NewTask = {
   title: "",
   projectId: "",
   priority: "medium",
   dueDate: "",
+};
+
+const initialFeedback: TaskFormFeedback = {
+  type: "idle",
 };
 
 function createInitialTask(projects: Project[]): NewTask {
@@ -39,16 +52,18 @@ function getTextField(formData: FormData, fieldName: string): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function wait(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
+}
+
 export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<NewTask>(() =>
     createInitialTask(projects),
   );
-
-  const [feedback, setFeedback] = useState<TaskFormFeedback>({
-    type: "idle",
-  });
 
   const focusTitleInput = useCallback(() => {
     titleInputRef.current?.focus();
@@ -58,12 +73,8 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     focusTitleInput();
   }, [focusTitleInput]);
 
-  const resetForm = useCallback(() => {
+  const resetFields = useCallback(() => {
     setFormData(createInitialTask(projects));
-
-    setFeedback({
-      type: "idle",
-    });
 
     focusTitleInput();
   }, [projects, focusTitleInput]);
@@ -90,11 +101,6 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     const priority = event.currentTarget.value;
 
     if (!isTaskPriority(priority)) {
-      setFeedback({
-        type: "error",
-        message: "La prioridad seleccionada no es válida.",
-      });
-
       return;
     }
 
@@ -113,8 +119,15 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
     }));
   }, []);
 
-  const submitAction = useCallback<TaskFormAction>(
-    (submittedData) => {
+  const taskFormAction = useCallback<TaskFormAction>(
+    async (_previousFeedback, submittedData) => {
+      const intent = getTextField(submittedData, "intent");
+
+      if (intent === "reset") {
+        resetFields();
+        return initialFeedback;
+      }
+
       const title = getTextField(submittedData, "title");
 
       const projectId = getTextField(submittedData, "projectId");
@@ -129,14 +142,15 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
         dueDate === "" ||
         !isTaskPriority(priority)
       ) {
-        setFeedback({
+        focusTitleInput();
+
+        return {
           type: "error",
           message: "Completa el título, el proyecto y la fecha.",
-        });
-
-        focusTitleInput();
-        return;
+        };
       }
+
+      await wait(700);
 
       onAddTask({
         title,
@@ -145,27 +159,30 @@ export function useTaskForm({ projects, onAddTask }: UseTaskFormOptions) {
         dueDate,
       });
 
-      setFormData(createInitialTask(projects));
+      resetFields();
 
-      setFeedback({
+      return {
         type: "success",
         message: "Tarea añadida correctamente.",
-      });
-
-      focusTitleInput();
+      };
     },
-    [focusTitleInput, onAddTask, projects],
+    [focusTitleInput, onAddTask, resetFields],
+  );
+
+  const [feedback, submitAction, isPending] = useActionState(
+    taskFormAction,
+    initialFeedback,
   );
 
   return {
     formData,
     feedback,
+    isPending,
     titleInputRef,
     handleTitleChange,
     handleProjectChange,
     handlePriorityChange,
     handleDueDateChange,
     submitAction,
-    resetForm,
   };
 }
