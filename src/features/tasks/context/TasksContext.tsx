@@ -1,11 +1,12 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import { useTasks } from "../hooks/useTasks";
-import type { AddTaskHandler, Task } from "../model/task";
+import type { AddTaskHandler, ResetTasksHandler, Task } from "../model/task";
 
 type TasksContextValue = {
   tasks: Task[];
   addTask: AddTaskHandler;
+  resetTasks: ResetTasksHandler;
 };
 
 const TasksContext = createContext<TasksContextValue | undefined>(undefined);
@@ -15,13 +16,14 @@ type TasksProviderProps = {
 };
 
 export function TasksProvider({ children }: TasksProviderProps) {
-  const { tasks, addTask } = useTasks();
+  const { tasks, addTask, resetTasks } = useTasks();
 
   return (
     <TasksContext
       value={{
         tasks,
         addTask,
+        resetTasks,
       }}
     >
       {children}
