@@ -54,6 +54,8 @@ export interface Task extends NewTask {
 
 export type AddTaskHandler = (task: NewTask) => void;
 
+export type ResetTasksHandler = () => void;
+
 export type TaskFormFeedback =
   | {
       type: "idle";
