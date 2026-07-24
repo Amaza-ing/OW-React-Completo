@@ -1,5 +1,6 @@
 import { useTasks } from "../features/tasks";
 import "./App.css";
+import "./other.css";
 import AppRoutes from "./AppRoutes";
 
 function App() {

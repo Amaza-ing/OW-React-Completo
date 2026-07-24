@@ -4,7 +4,7 @@ import PageHeader from "../shared/components/common/PageHeader";
 
 function NotFoundPage() {
   return (
-    <div className="page">
+    <div className="page not-found-page">
       <PageHeader
         eyebrow="Error 404"
         title="Página no encontrada"
@@ -12,9 +12,15 @@ function NotFoundPage() {
       />
 
       <ContentPanel>
-        <p>Comprueba la dirección o vuelve al resumen de la aplicación.</p>
+        <div className="not-found-page__content">
+          <p className="not-found-page__message">
+            Comprueba la dirección o vuelve al resumen de la aplicación.
+          </p>
 
-        <Link to="/">Volver al resumen</Link>
+          <Link className="page-action" to="/">
+            Volver al resumen
+          </Link>
+        </div>
       </ContentPanel>
     </div>
   );

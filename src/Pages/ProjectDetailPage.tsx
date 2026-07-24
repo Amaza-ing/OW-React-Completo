@@ -24,7 +24,11 @@ function ProjectDetailPage() {
         />
 
         <ContentPanel>
-          <button type="button" onClick={() => navigate("/projects")}>
+          <button
+            className="page-action page-action--secondary"
+            type="button"
+            onClick={() => navigate("/projects")}
+          >
             Volver a proyectos
           </button>
         </ContentPanel>
@@ -33,7 +37,7 @@ function ProjectDetailPage() {
   }
 
   return (
-    <div className="page">
+    <div className="page project-detail-page">
       <PageHeader
         eyebrow="Detalle del proyecto"
         title={project.name}
@@ -46,21 +50,29 @@ function ProjectDetailPage() {
         title="Resumen del proyecto"
         meta={`${project.progress}% completado`}
       >
-        <p>
-          <strong>Fecha objetivo:</strong> {project.dueDate}
-        </p>
+        <div className="project-detail-page__data">
+          <p>
+            <strong>Fecha objetivo:</strong> {project.dueDate}
+          </p>
 
-        <p>
-          <strong>Miembros:</strong> {project.members}
-        </p>
+          <p>
+            <strong>Miembros:</strong> {project.members}
+          </p>
 
-        <p>
-          <strong>Progreso:</strong> {project.progress}%
-        </p>
+          <p>
+            <strong>Progreso:</strong> {project.progress}%
+          </p>
+        </div>
 
-        <button type="button" onClick={() => navigate("/projects")}>
-          Volver a proyectos
-        </button>
+        <div className="project-detail-page__actions">
+          <button
+            className="page-action page-action--secondary"
+            type="button"
+            onClick={() => navigate("/projects")}
+          >
+            Volver a proyectos
+          </button>
+        </div>
       </ContentPanel>
     </div>
   );

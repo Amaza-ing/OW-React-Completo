@@ -34,7 +34,7 @@ function ProjectsPage() {
   };
 
   return (
-    <div className="page">
+    <div className="page projects-page">
       <PageHeader
         eyebrow="Proyectos"
         title="Todos los proyectos"
@@ -43,7 +43,7 @@ function ProjectsPage() {
       />
 
       <ContentPanel eyebrow="Búsqueda" title="Buscar proyectos">
-        <label>
+        <label className="project-search">
           <span>Nombre del proyecto</span>
 
           <input
@@ -63,7 +63,7 @@ function ProjectsPage() {
 
       {filteredProjects.length === 0 && (
         <ContentPanel>
-          <p>
+          <p className="projects-page__empty">
             No se han encontrado proyectos para: <strong>{search}</strong>
           </p>
         </ContentPanel>

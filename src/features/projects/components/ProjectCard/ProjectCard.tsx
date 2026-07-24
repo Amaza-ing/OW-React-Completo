@@ -24,7 +24,12 @@ function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="project-card__content">
         <h3>
-          <Link to={`/projects/${project.id}`}>{project.name}</Link>
+          <Link
+            className="project-card__title-link"
+            to={`/projects/${project.id}`}
+          >
+            {project.name}
+          </Link>
         </h3>
 
         <p>{project.description}</p>
