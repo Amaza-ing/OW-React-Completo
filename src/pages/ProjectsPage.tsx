@@ -5,6 +5,7 @@ import {
 } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
+import SearchField from "../shared/components/common/SearchField";
 
 function ProjectsPage() {
   const { search, filteredProjects, handleSearchChange } =
@@ -20,16 +21,12 @@ function ProjectsPage() {
       />
 
       <ContentPanel eyebrow="Búsqueda" title="Buscar proyectos">
-        <label className="project-search">
-          <span>Nombre del proyecto</span>
-
-          <input
-            type="search"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Ej. web"
-          />
-        </label>
+        <SearchField
+          label="Nombre del proyecto"
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Ej. web"
+        />
       </ContentPanel>
 
       <ProjectResults projects={filteredProjects}>
