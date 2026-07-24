@@ -5,6 +5,7 @@ type ContentPanelProps = {
   eyebrow?: string;
   title?: string;
   meta?: ReactNode;
+  actions?: ReactNode;
   ariaLabel?: string;
 };
 
@@ -13,6 +14,7 @@ function ContentPanel({
   eyebrow,
   title,
   meta,
+  actions,
   ariaLabel,
 }: ContentPanelProps) {
   const hasHeader =
@@ -35,6 +37,10 @@ function ContentPanel({
       )}
 
       {children}
+
+      {actions !== undefined && (
+        <div className="content-panel__actions">{actions}</div>
+      )}
     </section>
   );
 }
