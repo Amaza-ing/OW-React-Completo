@@ -11,16 +11,16 @@ function NotFoundPage() {
         description="La dirección solicitada no existe dentro de TaskFlow."
       />
 
-      <ContentPanel>
-        <div className="not-found-page__content">
-          <p className="not-found-page__message">
-            Comprueba la dirección o vuelve al resumen de la aplicación.
-          </p>
-
+      <ContentPanel
+        actions={
           <Link className="page-action" to="/">
             Volver al resumen
           </Link>
-        </div>
+        }
+      >
+        <p className="not-found-page__message">
+          Comprueba la dirección o vuelve al resumen de la aplicación.
+        </p>
       </ContentPanel>
     </div>
   );
