@@ -1,10 +1,15 @@
 export { default as TaskForm } from "./components/TaskForm/TaskForm";
 export { default as TaskItem } from "./components/TaskItem/TaskItem";
 
-export { TasksProvider, useTasksContext } from "./context/tasksContext";
+export { TasksProvider } from "./context/TasksProvider";
 
 export { tasks } from "./data/tasks";
+
+export { useOptimisticTasks } from "./hooks/useOptimisticTasks";
+
 export { useTasks } from "./hooks/useTasks";
+
+export { useTasksContext } from "./hooks/useTasksContext";
 
 export type {
   AddTaskHandler,
