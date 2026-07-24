@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router";
 import type { AddTaskHandler, Task } from "../features/tasks";
-import DashboardPage from "../pages/DashboardPage";
-import NotFoundPage from "../pages/NotFoundPage";
-import ProjectDetailPage from "../pages/ProjectDetailPage";
-import ProjectsPage from "../pages/ProjectsPage";
-import TasksPage from "../pages/TasksPage";
+import DashboardPage from "../temp/DashboardPage";
+import NotFoundPage from "../temp/NotFoundPage";
+import ProjectDetailPage from "../temp/ProjectDetailPage";
+import ProjectsPage from "../temp/ProjectsPage";
+import TasksPage from "../temp/TasksPage";
 import AppLayout from "../shared/components/layout/AppLayout";
 
 type AppRoutesProps = {
