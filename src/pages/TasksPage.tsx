@@ -1,15 +1,11 @@
+import { getProjectById, projects } from "../features/projects";
+import { TaskForm, TaskItem, useTasksContext } from "../features/tasks";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
-import { projects, getProjectById } from "../features/projects";
-import { TaskForm, TaskItem } from "../features/tasks";
-import type { AddTaskHandler, Task } from "../features/tasks";
 
-type TasksPageProps = {
-  tasks: Task[];
-  onAddTask: AddTaskHandler;
-};
+function TasksPage() {
+  const { tasks, addTask } = useTasksContext();
 
-function TasksPage({ tasks, onAddTask }: TasksPageProps) {
   return (
     <div className="page">
       <PageHeader
@@ -24,7 +20,7 @@ function TasksPage({ tasks, onAddTask }: TasksPageProps) {
         title="Añadir una tarea"
         meta="Estado inicial: pendiente"
       >
-        <TaskForm projects={projects} onAddTask={onAddTask} />
+        <TaskForm projects={projects} onAddTask={addTask} />
       </ContentPanel>
 
       <ContentPanel ariaLabel="Listado de tareas">

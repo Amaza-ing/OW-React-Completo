@@ -7,14 +7,11 @@ import {
   getProjectById,
   getProjectSummary,
 } from "../features/projects";
-import { TaskItem, getTaskSummary } from "../features/tasks";
-import type { Task } from "../features/tasks";
+import { TaskItem, getTaskSummary, useTasksContext } from "../features/tasks";
 
-type DashboardPageProps = {
-  tasks: Task[];
-};
+function DashboardPage() {
+  const { tasks } = useTasksContext();
 
-function DashboardPage({ tasks }: DashboardPageProps) {
   const projectSummary = getProjectSummary(projects);
   const taskSummary = getTaskSummary(tasks);
 
