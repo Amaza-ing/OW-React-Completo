@@ -1,0 +1,16 @@
+import type { Task } from "../model/task";
+
+type TasksAction = {
+  type: "task/added";
+  payload: Task;
+};
+
+export function tasksReducer(state: Task[], action: TasksAction): Task[] {
+  switch (action.type) {
+    case "task/added":
+      return [action.payload, ...state];
+
+    default:
+      return state;
+  }
+}
