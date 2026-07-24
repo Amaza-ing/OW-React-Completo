@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
-import type { AddTaskHandler, Task } from "../features/tasks";
+import { useTasks } from "../features/tasks";
 import DashboardPage from "../pages/DashboardPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProjectDetailPage from "../pages/ProjectDetailPage";
@@ -7,12 +7,9 @@ import ProjectsPage from "../pages/ProjectsPage";
 import TasksPage from "../pages/TasksPage";
 import AppLayout from "../shared/components/layout/AppLayout";
 
-type AppRoutesProps = {
-  tasks: Task[];
-  onAddTask: AddTaskHandler;
-};
+function AppRoutes() {
+  const { tasks, addTask } = useTasks();
 
-function AppRoutes({ tasks, onAddTask }: AppRoutesProps) {
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -26,7 +23,7 @@ function AppRoutes({ tasks, onAddTask }: AppRoutesProps) {
 
         <Route
           path="tasks"
-          element={<TasksPage tasks={tasks} onAddTask={onAddTask} />}
+          element={<TasksPage tasks={tasks} onAddTask={addTask} />}
         />
 
         <Route path="*" element={<NotFoundPage />} />

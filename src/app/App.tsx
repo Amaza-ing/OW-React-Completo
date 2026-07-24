@@ -1,12 +1,9 @@
-import { useTasks } from "../features/tasks";
 import "./App.css";
 import "./other.css";
 import AppRoutes from "./AppRoutes";
 
 function App() {
-  const { tasks, addTask } = useTasks();
-
-  return <AppRoutes tasks={tasks} onAddTask={addTask} />;
+  return <AppRoutes />;
 }
 
 export default App;
