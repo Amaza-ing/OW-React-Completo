@@ -1,6 +1,6 @@
 import type { ChangeEventHandler } from "react";
 import { useSearchParams } from "react-router";
-import { ProjectCard, projects } from "../features/projects";
+import { ProjectList, projects } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 
@@ -55,11 +55,7 @@ function ProjectsPage() {
         </label>
       </ContentPanel>
 
-      <section className="project-grid" aria-label="Listado de proyectos">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </section>
+      <ProjectList projects={filteredProjects} />
 
       {filteredProjects.length === 0 && (
         <ContentPanel>
