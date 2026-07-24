@@ -1,7 +1,7 @@
 export { default as TaskForm } from "./components/TaskForm/TaskForm";
 export { default as TaskItem } from "./components/TaskItem/TaskItem";
 
-export { TasksProvider, useTasksContext } from "./context/TasksContext";
+export { TasksProvider, useTasksContext } from "./context/tasksContext";
 
 export { tasks } from "./data/tasks";
 export { useTasks } from "./hooks/useTasks";
