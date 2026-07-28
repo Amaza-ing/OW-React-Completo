@@ -24,10 +24,13 @@ export {
 
 export type { Project, ProjectStatus } from "./model/project";
 
+export { projectTeamSourceOptions } from "./model/projectMember";
+
 export type {
   AddProjectMemberInput,
   NewProjectMember,
   ProjectMember,
+  ProjectTeamSource,
 } from "./model/projectMember";
 
 export {
