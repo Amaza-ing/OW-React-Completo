@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { createServer } from "node:http";
 import { createSchema, createYoga } from "graphql-yoga";
 
@@ -122,6 +123,11 @@ const schema = createSchema({
       role: String!
     }
 
+    input AddProjectMemberInput {
+      name: String!
+      role: String!
+    }
+
     type Project {
       id: ID!
       name: String!
@@ -137,6 +143,13 @@ const schema = createSchema({
       projects: [Project!]!
       project(id: ID!): Project
     }
+
+    type Mutation {
+      addProjectMember(
+        projectId: ID!
+        input: AddProjectMemberInput!
+      ): ProjectMember!
+    }
   `,
   resolvers: {
     Query: {
@@ -150,6 +163,48 @@ const schema = createSchema({
         await wait(GRAPHQL_REQUEST_DELAY);
 
         return projects.find((project) => project.id === id) ?? null;
+      },
+    },
+
+    Mutation: {
+      addProjectMember: async (_parent, { projectId, input }) => {
+        await wait(GRAPHQL_REQUEST_DELAY);
+
+        const project = projects.find(
+          (currentProject) => currentProject.id === projectId,
+        );
+
+        if (project === undefined) {
+          throw new GraphQLError("No se ha encontrado el proyecto.", {
+            extensions: {
+              code: "PROJECT_NOT_FOUND",
+            },
+          });
+        }
+
+        const name = input.name.trim();
+
+        const role = input.role.trim();
+
+        if (name === "" || role === "") {
+          throw new GraphQLError("El nombre y el rol son obligatorios.", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
+
+        const newMember = {
+          id: `member-${Date.now()}`,
+          name,
+          role,
+        };
+
+        project.team.push(newMember);
+
+        project.members = project.team.length;
+
+        return newMember;
       },
     },
   },
