@@ -113,66 +113,6 @@ function findProject(projectId) {
   return projects.find((project) => project.id === projectId);
 }
 
-function setRestCorsHeaders(response) {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-
-  response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-
-  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
-
-function sendJson(response, status, body) {
-  setRestCorsHeaders(response);
-
-  response.statusCode = status;
-
-  response.setHeader("Content-Type", "application/json; charset=utf-8");
-
-  response.end(JSON.stringify(body));
-}
-
-async function handleRestRequest(request, response) {
-  const requestUrl = new URL(request.url ?? "/", "http://localhost:4000");
-
-  if (request.method === "OPTIONS" && requestUrl.pathname.startsWith("/api/")) {
-    setRestCorsHeaders(response);
-
-    response.statusCode = 204;
-    response.end();
-
-    return true;
-  }
-
-  const teamRoute = requestUrl.pathname.match(
-    /^\/api\/projects\/([^/]+)\/team$/,
-  );
-
-  if (request.method !== "GET" || teamRoute === null) {
-    return false;
-  }
-
-  await wait(GRAPHQL_REQUEST_DELAY);
-
-  const projectId = decodeURIComponent(teamRoute[1]);
-
-  const project = findProject(projectId);
-
-  if (project === undefined) {
-    sendJson(response, 404, {
-      message: "No se ha encontrado el proyecto.",
-    });
-
-    return true;
-  }
-
-  sendJson(response, 200, {
-    projectId: project.id,
-    team: project.team,
-  });
-
-  return true;
-}
-
 const schema = createSchema({
   typeDefs: /* GraphQL */ `
     enum ProjectStatus {
@@ -274,21 +214,10 @@ const schema = createSchema({
 
 const yoga = createYoga({
   schema,
-  graphqlEndpoint: "/graphql",
 });
 
-const server = createServer(async (request, response) => {
-  const handled = await handleRestRequest(request, response);
-
-  if (handled) {
-    return;
-  }
-
-  await yoga(request, response);
-});
+const server = createServer(yoga);
 
 server.listen(4000, () => {
-  console.info("GraphQL: http://localhost:4000/graphql");
-  
-  console.info("REST: http://localhost:4000/api");
+  console.info("Servidor GraphQL disponible en http://localhost:4000/graphql");
 });
