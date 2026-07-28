@@ -5,7 +5,14 @@ export { default as ProjectResults } from "./components/ProjectResults/ProjectRe
 export { projects } from "./data/projects";
 export { useCompleteProjectMutation } from "./hooks/useCompleteProjectMutation";
 export { useProjectSearch } from "./hooks/useProjectSearch";
-export { projectsQueryKey, useProjectsQuery } from "./hooks/useProjectsQuery";
+
+export {
+  projectQueryKeys,
+  projectsQueryOptions,
+  useProjectQuery,
+  useProjectsQuery,
+} from "./hooks/useProjectsQuery";
+
 export type { Project, ProjectStatus } from "./model/project";
 
 export {
