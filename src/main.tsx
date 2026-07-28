@@ -1,5 +1,6 @@
 // npm install react-router
 // npm install @tanstack/react-query
+// npm install --save-dev graphql graphql-yoga
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
