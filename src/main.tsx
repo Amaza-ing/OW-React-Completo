@@ -1,4 +1,5 @@
 // npm install react-router
+// npm install @tanstack/react-query
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
