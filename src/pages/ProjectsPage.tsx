@@ -1,5 +1,6 @@
 import {
   ProjectResults,
+  useCompleteProjectMutation,
   useProjectSearch,
   useProjectsQuery,
 } from "../features/projects";
@@ -16,8 +17,14 @@ function ProjectsPage() {
     isPending,
   } = useProjectsQuery();
 
+  const completeProjectMutation = useCompleteProjectMutation();
+
   const { search, filteredProjects, handleSearchChange } =
     useProjectSearch(projects);
+
+  const completableProjects = filteredProjects.filter(
+    (project) => project.status !== "completed",
+  );
 
   if (isPending) {
     return (
@@ -75,6 +82,54 @@ function ProjectsPage() {
           onChange={handleSearchChange}
           placeholder="Ej. web"
         />
+      </ContentPanel>
+
+      <ContentPanel
+        eyebrow="Mutación"
+        title="Completar proyectos"
+        meta={
+          completeProjectMutation.isPending
+            ? "Guardando..."
+            : "Sin cambios pendientes"
+        }
+        actions={
+          completableProjects.length > 0 ? (
+            completableProjects.map((project) => (
+              <button
+                key={project.id}
+                className="page-action page-action--secondary"
+                type="button"
+                onClick={() => {
+                  completeProjectMutation.mutate(project.id);
+                }}
+                disabled={completeProjectMutation.isPending}
+              >
+                {completeProjectMutation.isPending &&
+                completeProjectMutation.variables === project.id
+                  ? "Completando..."
+                  : `Completar ${project.name}`}
+              </button>
+            ))
+          ) : (
+            <span>No hay proyectos pendientes en los resultados.</span>
+          )
+        }
+      >
+        <p>
+          La mutación actualizará el servidor simulado y después sincronizará la
+          consulta.
+        </p>
+
+        {completeProjectMutation.isError && (
+          <p role="alert">{completeProjectMutation.error.message}</p>
+        )}
+
+        {completeProjectMutation.isSuccess && (
+          <p role="status">
+            Proyecto «{completeProjectMutation.data.name}» completado
+            correctamente.
+          </p>
+        )}
       </ContentPanel>
 
       <ProjectResults projects={filteredProjects}>
