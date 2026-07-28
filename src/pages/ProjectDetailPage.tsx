@@ -1,6 +1,9 @@
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   getProjectStatusLabel,
+  useAddProjectMemberMutation,
   useProjectQuery,
   useProjectTeamQuery,
 } from "../features/projects";
@@ -11,6 +14,12 @@ function ProjectDetailPage() {
   const { projectId } = useParams();
 
   const navigate = useNavigate();
+
+  const [memberName, setMemberName] = useState("");
+
+  const [memberRole, setMemberRole] = useState("");
+
+  const addProjectMemberMutation = useAddProjectMemberMutation();
 
   const {
     data: project,
@@ -27,6 +36,28 @@ function ProjectDetailPage() {
     isFetching: isProjectTeamFetching,
     isPending: isProjectTeamPending,
   } = useProjectTeamQuery(project?.id);
+
+  function handleAddMember(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (project === undefined) {
+      return;
+    }
+
+    addProjectMemberMutation.mutate(
+      {
+        projectId: project.id,
+        name: memberName.trim(),
+        role: memberRole.trim(),
+      },
+      {
+        onSuccess: () => {
+          setMemberName("");
+          setMemberRole("");
+        },
+      },
+    );
+  }
 
   if (isPending) {
     return (
@@ -181,6 +212,66 @@ function ProjectDetailPage() {
               ))}
             </ul>
           )}
+      </ContentPanel>
+
+      <ContentPanel
+        eyebrow="Mutación GraphQL"
+        title="Añadir miembro"
+        meta={
+          addProjectMemberMutation.isPending
+            ? "Guardando..."
+            : "Sin cambios pendientes"
+        }
+      >
+        <form onSubmit={handleAddMember}>
+          <label>
+            <span>Nombre del miembro</span>
+
+            <input
+              type="text"
+              value={memberName}
+              onChange={(event) => setMemberName(event.target.value)}
+              disabled={addProjectMemberMutation.isPending}
+              required
+            />
+          </label>
+
+          <label>
+            <span>Rol</span>
+
+            <input
+              type="text"
+              value={memberRole}
+              onChange={(event) => setMemberRole(event.target.value)}
+              disabled={addProjectMemberMutation.isPending}
+              required
+            />
+          </label>
+
+          <button
+            className="page-action page-action--secondary"
+            type="submit"
+            disabled={addProjectMemberMutation.isPending}
+          >
+            {addProjectMemberMutation.isPending
+              ? "Añadiendo..."
+              : "Añadir al equipo"}
+          </button>
+        </form>
+
+        {addProjectMemberMutation.isError && (
+          <>
+            <p role="alert">No se ha podido añadir el miembro.</p>
+
+            <p>{addProjectMemberMutation.error.message}</p>
+          </>
+        )}
+
+        {addProjectMemberMutation.isSuccess && (
+          <p role="status">
+            «{addProjectMemberMutation.data.name}» se ha añadido al equipo.
+          </p>
+        )}
       </ContentPanel>
     </div>
   );
