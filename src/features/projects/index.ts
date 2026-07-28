@@ -4,7 +4,7 @@ export { default as ProjectResults } from "./components/ProjectResults/ProjectRe
 export { projects } from "./data/projects";
 export { useProjectSearch } from "./hooks/useProjectSearch";
 export { getProjects } from "./api/projectsApi";
-
+export { projectsQueryKey, useProjectsQuery } from "./hooks/useProjectsQuery";
 export type { Project, ProjectStatus } from "./model/project";
 
 export {
