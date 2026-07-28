@@ -1,5 +1,9 @@
 import { useNavigate, useParams } from "react-router";
-import { getProjectStatusLabel, useProjectQuery } from "../features/projects";
+import {
+  getProjectStatusLabel,
+  useProjectQuery,
+  useProjectTeamQuery,
+} from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 
@@ -15,6 +19,14 @@ function ProjectDetailPage() {
     isFetching,
     isPending,
   } = useProjectQuery(projectId);
+
+  const {
+    data: projectTeam = [],
+    error: projectTeamError,
+    isError: isProjectTeamError,
+    isFetching: isProjectTeamFetching,
+    isPending: isProjectTeamPending,
+  } = useProjectTeamQuery(project?.id);
 
   if (isPending) {
     return (
@@ -129,6 +141,46 @@ function ProjectDetailPage() {
             <strong>Progreso:</strong> {project.progress}%
           </p>
         </div>
+      </ContentPanel>
+
+      <ContentPanel
+        eyebrow="GraphQL"
+        title="Equipo del proyecto"
+        meta={
+          isProjectTeamFetching
+            ? "Actualizando..."
+            : `${projectTeam.length} miembros`
+        }
+      >
+        {isProjectTeamPending && <p role="status">Cargando equipo...</p>}
+
+        {isProjectTeamError && (
+          <>
+            <p role="alert">No se ha podido cargar el equipo.</p>
+
+            <p>{projectTeamError.message}</p>
+          </>
+        )}
+
+        {!isProjectTeamPending &&
+          !isProjectTeamError &&
+          projectTeam.length === 0 && (
+            <p>El proyecto todavía no tiene miembros asignados.</p>
+          )}
+
+        {!isProjectTeamPending &&
+          !isProjectTeamError &&
+          projectTeam.length > 0 && (
+            <ul>
+              {projectTeam.map((member) => (
+                <li key={member.id}>
+                  <strong>{member.name}</strong>
+                  {" — "}
+                  {member.role}
+                </li>
+              ))}
+            </ul>
+          )}
       </ContentPanel>
     </div>
   );
