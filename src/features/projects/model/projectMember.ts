@@ -3,3 +3,12 @@ export interface ProjectMember {
   name: string;
   role: string;
 }
+
+export interface NewProjectMember {
+  name: string;
+  role: string;
+}
+
+export interface AddProjectMemberInput extends NewProjectMember {
+  projectId: string;
+}
