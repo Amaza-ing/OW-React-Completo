@@ -1,12 +1,17 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { getProjects } from "../api/projectsApi";
+import { getProjectTeam } from "../graphql/projectsGraphqlApi";
 import { getProjectById } from "../utils/projectUtils";
 
 const projectRootQueryKey = ["projects"] as const;
 
 export const projectQueryKeys = {
   all: projectRootQueryKey,
+
   list: () => [...projectRootQueryKey, "list"] as const,
+
+  team: (projectId: string) =>
+    [...projectRootQueryKey, "team", projectId] as const,
 };
 
 export const projectsQueryOptions = queryOptions({
@@ -21,7 +26,24 @@ export function useProjectsQuery() {
 export function useProjectQuery(projectId: string | undefined) {
   return useQuery({
     ...projectsQueryOptions,
+
     select: (projects) =>
       projectId === undefined ? undefined : getProjectById(projects, projectId),
+  });
+}
+
+export function useProjectTeamQuery(projectId: string | undefined) {
+  return useQuery({
+    queryKey: projectQueryKeys.team(projectId ?? ""),
+
+    queryFn: ({ signal }) => {
+      if (projectId === undefined) {
+        throw new Error("Falta el identificador del proyecto.");
+      }
+
+      return getProjectTeam(projectId, signal);
+    },
+
+    enabled: projectId !== undefined,
   });
 }
