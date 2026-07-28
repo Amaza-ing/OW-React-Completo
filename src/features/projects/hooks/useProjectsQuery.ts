@@ -1,6 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { getProjects } from "../api/projectsApi";
-import { getProjectTeamRest } from "../api/projectsRestApi";
 import { getProjectTeam } from "../graphql/projectsGraphqlApi";
 import type { ProjectTeamSource } from "../model/projectMember";
 import { getProjectById } from "../utils/projectUtils";
@@ -52,8 +51,6 @@ export function useProjectTeamQuery(
       if (source === "graphql") {
         return getProjectTeam(projectId, signal);
       }
-
-      return getProjectTeamRest(projectId, signal);
     },
 
     enabled: projectId !== undefined,
