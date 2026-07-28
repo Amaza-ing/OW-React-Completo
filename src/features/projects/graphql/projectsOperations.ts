@@ -26,3 +26,19 @@ export const GET_PROJECT_TEAM_QUERY = String.raw`
       }
     }
   `;
+
+export const ADD_PROJECT_MEMBER_MUTATION = String.raw`
+    mutation AddProjectMember(
+      $projectId: ID!
+      $input: AddProjectMemberInput!
+    ) {
+      addProjectMember(
+        projectId: $projectId
+        input: $input
+      ) {
+        id
+        name
+        role
+      }
+    }
+  `;
