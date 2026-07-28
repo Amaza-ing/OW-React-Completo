@@ -22,8 +22,11 @@ function ProjectsPage() {
   const { search, filteredProjects, handleSearchChange } =
     useProjectSearch(projects);
 
-  const completableProjects = filteredProjects.filter(
-    (project) => project.status !== "completed",
+  const actionableProjects = filteredProjects.filter(
+    (project) =>
+      project.status !== "completed" ||
+      (completeProjectMutation.isPending &&
+        completeProjectMutation.variables === project.id),
   );
 
   if (isPending) {
@@ -93,8 +96,8 @@ function ProjectsPage() {
             : "Sin cambios pendientes"
         }
         actions={
-          completableProjects.length > 0 ? (
-            completableProjects.map((project) => (
+          actionableProjects.length > 0 ? (
+            actionableProjects.map((project) => (
               <button
                 key={project.id}
                 className="page-action page-action--secondary"
@@ -116,8 +119,8 @@ function ProjectsPage() {
         }
       >
         <p>
-          La mutación actualizará el servidor simulado y después sincronizará la
-          consulta.
+          La caché se actualiza inmediatamente y se restaura si la operación
+          falla.
         </p>
 
         {completeProjectMutation.isError && (
