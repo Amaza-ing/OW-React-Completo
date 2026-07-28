@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
+import type { SubmitEvent } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   getProjectStatusLabel,
@@ -47,7 +47,7 @@ function ProjectDetailPage() {
       (option) => option.value === projectTeamSource,
     )?.label ?? "Desconocida";
 
-  function handleAddMember(event: FormEvent<HTMLFormElement>) {
+  function handleAddMember(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (project === undefined) {
