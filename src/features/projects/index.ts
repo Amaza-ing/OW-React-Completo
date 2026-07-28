@@ -2,14 +2,8 @@ export { completeProject, getProjects } from "./api/projectsApi";
 export { default as ProjectCard } from "./components/ProjectCard/ProjectCard";
 export { default as ProjectList } from "./components/ProjectList/ProjectList";
 export { default as ProjectResults } from "./components/ProjectResults/ProjectResults";
+export { default as ProjectTeamSection } from "./components/ProjectTeamSection/ProjectTeamSection";
 export { projects } from "./data/projects";
-
-export {
-  ADD_PROJECT_MEMBER_MUTATION,
-  GET_PROJECTS_QUERY,
-  GET_PROJECT_TEAM_QUERY,
-} from "./graphql/projectsOperations";
-
 export { useAddProjectMemberMutation } from "./hooks/useAddProjectMemberMutation";
 export { useCompleteProjectMutation } from "./hooks/useCompleteProjectMutation";
 export { useProjectSearch } from "./hooks/useProjectSearch";
@@ -24,13 +18,10 @@ export {
 
 export type { Project, ProjectStatus } from "./model/project";
 
-export { projectTeamSourceOptions } from "./model/projectMember";
-
 export type {
   AddProjectMemberInput,
   NewProjectMember,
   ProjectMember,
-  ProjectTeamSource,
 } from "./model/projectMember";
 
 export {
