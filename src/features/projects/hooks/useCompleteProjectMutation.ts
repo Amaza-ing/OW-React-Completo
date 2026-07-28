@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { completeProject } from "../api/projectsApi";
 import type { Project } from "../model/project";
-import { projectsQueryKey } from "./useProjectsQuery";
+import { projectQueryKeys, projectsQueryOptions } from "./useProjectsQuery";
 
 export function useCompleteProjectMutation() {
   const queryClient = useQueryClient();
@@ -11,14 +11,16 @@ export function useCompleteProjectMutation() {
 
     onMutate: async (projectId) => {
       await queryClient.cancelQueries({
-        queryKey: projectsQueryKey,
+        queryKey: projectsQueryOptions.queryKey,
+        exact: true,
       });
 
-      const previousProjects =
-        queryClient.getQueryData<Project[]>(projectsQueryKey);
+      const previousProjects = queryClient.getQueryData<Project[]>(
+        projectsQueryOptions.queryKey,
+      );
 
       queryClient.setQueryData<Project[]>(
-        projectsQueryKey,
+        projectsQueryOptions.queryKey,
         (currentProjects) => {
           if (currentProjects === undefined) {
             return currentProjects;
@@ -44,7 +46,7 @@ export function useCompleteProjectMutation() {
     onError: (_error, _projectId, onMutateResult) => {
       if (onMutateResult?.previousProjects !== undefined) {
         queryClient.setQueryData(
-          projectsQueryKey,
+          projectsQueryOptions.queryKey,
           onMutateResult.previousProjects,
         );
       }
@@ -52,7 +54,7 @@ export function useCompleteProjectMutation() {
 
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: projectsQueryKey,
+        queryKey: projectQueryKeys.all,
       });
     },
   });
