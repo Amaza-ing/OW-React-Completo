@@ -3,6 +3,7 @@ export { default as ProjectList } from "./components/ProjectList/ProjectList";
 export { default as ProjectResults } from "./components/ProjectResults/ProjectResults";
 export { projects } from "./data/projects";
 export { useProjectSearch } from "./hooks/useProjectSearch";
+export { getProjects } from "./api/projectsApi";
 
 export type { Project, ProjectStatus } from "./model/project";
 
