@@ -1,6 +1,12 @@
 import { requestGraphQL } from "../../../shared/api/graphqlClient";
-import type { ProjectMember } from "../model/projectMember";
-import { GET_PROJECT_TEAM_QUERY } from "./projectsOperations";
+import type {
+  AddProjectMemberInput,
+  ProjectMember,
+} from "../model/projectMember";
+import {
+  ADD_PROJECT_MEMBER_MUTATION,
+  GET_PROJECT_TEAM_QUERY,
+} from "./projectsOperations";
 
 type GraphQLProjectMember = {
   id: string;
@@ -17,6 +23,18 @@ type GetProjectTeamData = {
 
 type GetProjectTeamVariables = {
   projectId: string;
+};
+
+type AddProjectMemberData = {
+  addProjectMember: GraphQLProjectMember;
+};
+
+type AddProjectMemberVariables = {
+  projectId: string;
+  input: {
+    name: string;
+    role: string;
+  };
 };
 
 function mapProjectMember(member: GraphQLProjectMember): ProjectMember {
@@ -48,4 +66,27 @@ export async function getProjectTeam(
   }
 
   return data.project.team.map(mapProjectMember);
+}
+
+export async function addProjectMember({
+  projectId,
+  name,
+  role,
+}: AddProjectMemberInput): Promise<ProjectMember> {
+  const data = await requestGraphQL<
+    AddProjectMemberData,
+    AddProjectMemberVariables
+  >({
+    query: ADD_PROJECT_MEMBER_MUTATION,
+    operationName: "AddProjectMember",
+    variables: {
+      projectId,
+      input: {
+        name,
+        role,
+      },
+    },
+  });
+
+  return mapProjectMember(data.addProjectMember);
 }
