@@ -3,10 +3,12 @@ import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   getProjectStatusLabel,
+  projectTeamSourceOptions,
   useAddProjectMemberMutation,
   useProjectQuery,
   useProjectTeamQuery,
 } from "../features/projects";
+import type { ProjectTeamSource } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 
@@ -14,6 +16,9 @@ function ProjectDetailPage() {
   const { projectId } = useParams();
 
   const navigate = useNavigate();
+
+  const [projectTeamSource, setProjectTeamSource] =
+    useState<ProjectTeamSource>("graphql");
 
   const [memberName, setMemberName] = useState("");
 
@@ -35,7 +40,12 @@ function ProjectDetailPage() {
     isError: isProjectTeamError,
     isFetching: isProjectTeamFetching,
     isPending: isProjectTeamPending,
-  } = useProjectTeamQuery(project?.id);
+  } = useProjectTeamQuery(project?.id, projectTeamSource);
+
+  const projectTeamSourceLabel =
+    projectTeamSourceOptions.find(
+      (option) => option.value === projectTeamSource,
+    )?.label ?? "Desconocida";
 
   function handleAddMember(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -175,14 +185,37 @@ function ProjectDetailPage() {
       </ContentPanel>
 
       <ContentPanel
-        eyebrow="GraphQL"
+        eyebrow="Comparativa"
         title="Equipo del proyecto"
         meta={
           isProjectTeamFetching
-            ? "Actualizando..."
-            : `${projectTeam.length} miembros`
+            ? `${projectTeamSourceLabel} · Actualizando...`
+            : `${projectTeamSourceLabel} · ${projectTeam.length} miembros`
         }
       >
+        <label>
+          <span>Fuente de datos</span>
+
+          <select
+            value={projectTeamSource}
+            onChange={(event) =>
+              setProjectTeamSource(event.target.value as ProjectTeamSource)
+            }
+          >
+            {projectTeamSourceOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <p>
+          {projectTeamSource === "graphql"
+            ? "Operación GetProjectTeam enviada a POST /graphql."
+            : "Recurso solicitado mediante GET /api/projects/:projectId/team."}
+        </p>
+
         {isProjectTeamPending && <p role="status">Cargando equipo...</p>}
 
         {isProjectTeamError && (
