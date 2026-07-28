@@ -5,10 +5,12 @@ export { default as ProjectResults } from "./components/ProjectResults/ProjectRe
 export { projects } from "./data/projects";
 
 export {
+  ADD_PROJECT_MEMBER_MUTATION,
   GET_PROJECTS_QUERY,
   GET_PROJECT_TEAM_QUERY,
 } from "./graphql/projectsOperations";
 
+export { useAddProjectMemberMutation } from "./hooks/useAddProjectMemberMutation";
 export { useCompleteProjectMutation } from "./hooks/useCompleteProjectMutation";
 export { useProjectSearch } from "./hooks/useProjectSearch";
 
@@ -21,7 +23,12 @@ export {
 } from "./hooks/useProjectsQuery";
 
 export type { Project, ProjectStatus } from "./model/project";
-export type { ProjectMember } from "./model/projectMember";
+
+export type {
+  AddProjectMemberInput,
+  NewProjectMember,
+  ProjectMember,
+} from "./model/projectMember";
 
 export {
   getProjectById,
