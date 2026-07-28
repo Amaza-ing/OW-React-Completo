@@ -10,8 +10,7 @@ export function useAddProjectMemberMutation() {
 
     onSuccess: async (_member, variables) => {
       await queryClient.invalidateQueries({
-        queryKey: projectQueryKeys.team(variables.projectId),
-        exact: true,
+        queryKey: projectQueryKeys.teamRoot(variables.projectId),
       });
     },
   });
