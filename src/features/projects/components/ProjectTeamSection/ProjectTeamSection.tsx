@@ -1,25 +1,61 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { Component, useState } from "react";
+import type { FormEvent, ReactNode } from "react";
 import ContentPanel from "../../../../shared/components/common/ContentPanel";
 import { useAddProjectMemberMutation } from "../../hooks/useAddProjectMemberMutation";
-import { useProjectTeamQuery } from "../../hooks/useProjectsQuery";
+import { useSuspenseProjectTeamQuery } from "../../hooks/useProjectsQuery";
 
 type ProjectTeamSectionProps = {
   projectId: string;
 };
 
-function ProjectTeamSection({ projectId }: ProjectTeamSectionProps) {
+type ProjectTeamErrorBoundaryProps = {
+  children: ReactNode;
+};
+
+type ProjectTeamErrorBoundaryState = {
+  error: Error | null;
+};
+
+class ProjectTeamErrorBoundary extends Component<
+  ProjectTeamErrorBoundaryProps,
+  ProjectTeamErrorBoundaryState
+> {
+  state: ProjectTeamErrorBoundaryState = {
+    error: null,
+  };
+
+  static getDerivedStateFromError(error: Error): ProjectTeamErrorBoundaryState {
+    return {
+      error,
+    };
+  }
+
+  render() {
+    if (this.state.error !== null) {
+      return (
+        <ContentPanel
+          eyebrow="GraphQL"
+          title="Equipo del proyecto"
+          meta="Error"
+        >
+          <p role="alert">No se ha podido cargar el equipo.</p>
+
+          <p>{this.state.error.message}</p>
+        </ContentPanel>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+function ProjectTeamContent({ projectId }: ProjectTeamSectionProps) {
   const [memberName, setMemberName] = useState("");
 
   const [memberRole, setMemberRole] = useState("");
 
-  const {
-    data: projectTeam = [],
-    error: projectTeamError,
-    isError: isProjectTeamError,
-    isFetching: isProjectTeamFetching,
-    isPending: isProjectTeamPending,
-  } = useProjectTeamQuery(projectId);
+  const { data: projectTeam, isFetching: isProjectTeamFetching } =
+    useSuspenseProjectTeamQuery(projectId);
 
   const addProjectMemberMutation = useAddProjectMemberMutation();
 
@@ -52,35 +88,19 @@ function ProjectTeamSection({ projectId }: ProjectTeamSectionProps) {
             : `${projectTeam.length} miembros`
         }
       >
-        {isProjectTeamPending && <p role="status">Cargando equipo...</p>}
-
-        {isProjectTeamError && (
-          <>
-            <p role="alert">No se ha podido cargar el equipo.</p>
-
-            <p>{projectTeamError.message}</p>
-          </>
+        {projectTeam.length === 0 ? (
+          <p>El proyecto todavía no tiene miembros asignados.</p>
+        ) : (
+          <ul>
+            {projectTeam.map((member) => (
+              <li key={member.id}>
+                <strong>{member.name}</strong>
+                {" — "}
+                {member.role}
+              </li>
+            ))}
+          </ul>
         )}
-
-        {!isProjectTeamPending &&
-          !isProjectTeamError &&
-          projectTeam.length === 0 && (
-            <p>El proyecto todavía no tiene miembros asignados.</p>
-          )}
-
-        {!isProjectTeamPending &&
-          !isProjectTeamError &&
-          projectTeam.length > 0 && (
-            <ul>
-              {projectTeam.map((member) => (
-                <li key={member.id}>
-                  <strong>{member.name}</strong>
-                  {" — "}
-                  {member.role}
-                </li>
-              ))}
-            </ul>
-          )}
       </ContentPanel>
 
       <ContentPanel
@@ -143,6 +163,14 @@ function ProjectTeamSection({ projectId }: ProjectTeamSectionProps) {
         )}
       </ContentPanel>
     </>
+  );
+}
+
+function ProjectTeamSection({ projectId }: ProjectTeamSectionProps) {
+  return (
+    <ProjectTeamErrorBoundary key={projectId}>
+      <ProjectTeamContent projectId={projectId} />
+    </ProjectTeamErrorBoundary>
   );
 }
 
