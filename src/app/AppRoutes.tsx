@@ -1,15 +1,12 @@
-import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import DashboardPage from "../pages/DashboardPage";
 import AppLayout from "../shared/components/layout/AppLayout";
-
-const ProjectsPage = lazy(() => import("../pages/ProjectsPage"));
-
-const ProjectDetailPage = lazy(() => import("../pages/ProjectDetailPage"));
-
-const TasksPage = lazy(() => import("../pages/TasksPage"));
-
-const NotFoundPage = lazy(() => import("../pages/NotFoundPage"))
+import {
+  NotFoundPage,
+  ProjectDetailPage,
+  ProjectsPage,
+  TasksPage,
+} from "./lazyPages";
 
 function AppRoutes() {
   return (
