@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { getProjectStatusLabel, useProjectQuery } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
+import LoadingFallback from "../shared/components/feedback/LoadingFallback";
 
 const ProjectTeamSection = lazy(
   () => import("../features/projects/ProjectTeamSection.lazy"),
@@ -136,7 +137,14 @@ function ProjectDetailPage() {
         </div>
       </ContentPanel>
 
-      <Suspense fallback={<p role="status">Cargando equipo del proyecto...</p>}>
+      <Suspense
+        fallback={
+          <LoadingFallback
+            label="Cargando equipo del proyecto"
+            variant="panel"
+          />
+        }
+      >
         <ProjectTeamSection projectId={project.id} />
       </Suspense>
     </div>
