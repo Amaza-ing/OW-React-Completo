@@ -2,6 +2,7 @@ import {
   Profiler,
   useCallback,
   useDeferredValue,
+  useEffect,
   useMemo,
   useState,
   useTransition,
@@ -66,7 +67,25 @@ function TasksPage() {
 
   const [search, setSearch] = useState("");
 
-  const deferredSearch = useDeferredValue(search);
+  // Simulación del delay
+  //  ***********************************************************
+
+  const [delayedSearch, setDelayedSearch] = useState("");
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setDelayedSearch(search);
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [search]);
+
+  const deferredSearch = useDeferredValue(delayedSearch);
+
+  //  ***********************************************************
+
 
   const isSearchPending = search !== deferredSearch;
 
