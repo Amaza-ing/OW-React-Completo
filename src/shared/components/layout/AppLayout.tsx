@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router";
 import AppHeader from "./AppHeader";
 import Sidebar from "./Sidebar";
@@ -12,7 +13,9 @@ function AppLayout() {
         <Sidebar />
 
         <main className="app-layout__content">
-          <Outlet />
+          <Suspense fallback={<p role="status">Cargando sección...</p>}>
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>
