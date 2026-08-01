@@ -1,11 +1,12 @@
+import { lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router";
-import {
-  getProjectStatusLabel,
-  ProjectTeamSection,
-  useProjectQuery,
-} from "../features/projects";
+import { getProjectStatusLabel, useProjectQuery } from "../features/projects";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
+
+const ProjectTeamSection = lazy(
+  () => import("../features/projects/ProjectTeamSection.lazy"),
+);
 
 function ProjectDetailPage() {
   const { projectId } = useParams();
@@ -126,7 +127,7 @@ function ProjectDetailPage() {
           </p>
 
           <p>
-            <strong>Miembros previstos:</strong> {project.members}
+            <strong>Miembros:</strong> {project.members}
           </p>
 
           <p>
@@ -135,7 +136,9 @@ function ProjectDetailPage() {
         </div>
       </ContentPanel>
 
-      <ProjectTeamSection projectId={project.id} />
+      <Suspense fallback={<p role="status">Cargando equipo del proyecto...</p>}>
+        <ProjectTeamSection projectId={project.id} />
+      </Suspense>
     </div>
   );
 }
