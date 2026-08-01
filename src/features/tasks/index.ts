@@ -1,5 +1,6 @@
 export { default as TaskForm } from "./components/TaskForm/TaskForm";
 export { default as TaskItem } from "./components/TaskItem/TaskItem";
+export { default as TaskSearch } from "./components/TaskSearch/TaskSearch";
 
 export { TasksProvider } from "./context/TasksProvider";
 
