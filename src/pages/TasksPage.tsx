@@ -1,4 +1,11 @@
-import { Profiler, useCallback, useMemo, useState, useTransition } from "react";
+import {
+  Profiler,
+  useCallback,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import type { ChangeEventHandler, ProfilerOnRenderCallback } from "react";
 import { projects } from "../features/projects";
 import {
@@ -59,6 +66,10 @@ function TasksPage() {
 
   const [search, setSearch] = useState("");
 
+  const deferredSearch = useDeferredValue(search);
+
+  const isSearchPending = search !== deferredSearch;
+
   const [selectedStatus, setSelectedStatus] = useState<TaskStatusFilter>("all");
 
   const [statusFilter, setStatusFilter] = useState<TaskStatusFilter>("all");
@@ -71,7 +82,7 @@ function TasksPage() {
   );
 
   const visibleTasks = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
+    const normalizedSearch = deferredSearch.trim().toLowerCase();
 
     return tasks.filter((task) => {
       const matchesSearch =
@@ -83,7 +94,7 @@ function TasksPage() {
 
       return matchesSearch && matchesStatus;
     });
-  }, [tasks, search, statusFilter]);
+  }, [tasks, deferredSearch, statusFilter]);
 
   const handleSearchChange = useCallback((value: string) => {
     setSearch(value);
@@ -105,6 +116,8 @@ function TasksPage() {
     },
     [],
   );
+
+  const isUpdatingResults = isPending || isSearchPending;
 
   return (
     <div className="page tasks-page">
@@ -133,7 +146,7 @@ function TasksPage() {
       <ContentPanel
         eyebrow="Filtros"
         title="Buscar y filtrar tareas"
-        meta="El selector se actualiza inmediatamente y el listado puede esperar"
+        meta="El input conserva el valor actual mientras el listado utiliza una versión diferida"
       >
         <div className="tasks-page__controls">
           <TaskSearch value={search} onChange={handleSearchChange} />
@@ -169,8 +182,15 @@ function TasksPage() {
 
         {isPending && <p role="status">Actualizando el filtro de estado...</p>}
 
+        {isSearchPending && (
+          <p role="status">
+            Mostrando los resultados anteriores mientras se actualiza la
+            búsqueda...
+          </p>
+        )}
+
         <Profiler id="TaskList" onRender={handleTaskListRender}>
-          <div className="task-list" aria-busy={isPending}>
+          <div className="task-list" aria-busy={isUpdatingResults}>
             {visibleTasks.map((task) => (
               <TaskItem
                 key={task.id}
