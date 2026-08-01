@@ -1,4 +1,8 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useQuery,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { getProjects } from "../api/projectsApi";
 import { getProjectTeam } from "../graphql/projectsGraphqlApi";
 import { getProjectById } from "../utils/projectUtils";
@@ -32,18 +36,10 @@ export function useProjectQuery(projectId: string | undefined) {
   });
 }
 
-export function useProjectTeamQuery(projectId: string | undefined) {
-  return useQuery({
-    queryKey: projectQueryKeys.team(projectId ?? ""),
+export function useSuspenseProjectTeamQuery(projectId: string) {
+  return useSuspenseQuery({
+    queryKey: projectQueryKeys.team(projectId),
 
-    queryFn: ({ signal }) => {
-      if (projectId === undefined) {
-        throw new Error("Falta el identificador del proyecto.");
-      }
-
-      return getProjectTeam(projectId, signal);
-    },
-
-    enabled: projectId !== undefined,
+    queryFn: ({ signal }) => getProjectTeam(projectId, signal),
   });
 }
