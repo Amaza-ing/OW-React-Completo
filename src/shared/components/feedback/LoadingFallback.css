@@ -1,0 +1,73 @@
+.loading-fallback {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  border: 1px solid #dbeafe;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+
+  .loading-fallback__label {
+    margin: 0;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .loading-fallback__skeleton {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .loading-fallback__line {
+    width: 100%;
+    height: 1rem;
+    display: block;
+    border-radius: 999px;
+    background-image: linear-gradient(
+      90deg,
+      #e2e8f0 25%,
+      #f8fafc 50%,
+      #e2e8f0 75%
+    );
+    background-size: 200% 100%;
+    animation: loading-fallback-pulse 1.4s ease-in-out infinite;
+  }
+
+  .loading-fallback__line--title {
+    width: 48%;
+    height: 1.5rem;
+  }
+
+  .loading-fallback__line--short {
+    width: 68%;
+  }
+}
+
+.loading-fallback--page {
+  min-height: 18rem;
+  align-content: start;
+  padding: 1.5rem;
+}
+
+.loading-fallback--panel {
+  min-height: 12rem;
+  align-content: center;
+  padding: 1.5rem;
+}
+
+@keyframes loading-fallback-pulse {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-fallback {
+    .loading-fallback__line {
+      animation: none;
+    }
+  }
+}
