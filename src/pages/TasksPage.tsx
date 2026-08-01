@@ -1,7 +1,12 @@
-import { Profiler, useState } from "react";
-import type { ChangeEventHandler, ProfilerOnRenderCallback } from "react";
-import { getProjectById, projects } from "../features/projects";
-import { TaskForm, TaskItem, useOptimisticTasks } from "../features/tasks";
+import { Profiler, useCallback, useMemo, useState } from "react";
+import type { ProfilerOnRenderCallback } from "react";
+import { projects } from "../features/projects";
+import {
+  TaskForm,
+  TaskItem,
+  TaskSearch,
+  useOptimisticTasks,
+} from "../features/tasks";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 import "./TasksPage.css";
@@ -25,18 +30,26 @@ function TasksPage() {
 
   const [search, setSearch] = useState("");
 
-  const normalizedSearch = search.trim().toLowerCase();
+  const projectNamesById = useMemo(
+    () => new Map(projects.map((project) => [project.id, project.name])),
+    [],
+  );
 
-  const visibleTasks =
-    normalizedSearch === ""
-      ? tasks
-      : tasks.filter((task) =>
-          task.title.toLowerCase().includes(normalizedSearch),
-        );
+  const visibleTasks = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
 
-  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setSearch(event.currentTarget.value);
-  };
+    if (normalizedSearch === "") {
+      return tasks;
+    }
+
+    return tasks.filter((task) =>
+      task.title.toLowerCase().includes(normalizedSearch),
+    );
+  }, [tasks, search]);
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+  }, []);
 
   return (
     <div className="page tasks-page">
@@ -63,21 +76,12 @@ function TasksPage() {
       </ContentPanel>
 
       <ContentPanel
-        eyebrow="Medición"
-        title="Buscar y medir el listado"
-        meta="Observa cada actualización desde React DevTools o la consola"
+        eyebrow="Rendimiento"
+        title="Buscar tareas"
+        meta="El listado conserva únicamente las optimizaciones justificadas por la medición"
       >
         <div className="tasks-page__controls">
-          <label>
-            <span>Buscar por título</span>
-
-            <input
-              type="search"
-              value={search}
-              onChange={handleSearchChange}
-              placeholder="Ej. diseño"
-            />
-          </label>
+          <TaskSearch value={search} onChange={handleSearchChange} />
         </div>
       </ContentPanel>
 
@@ -98,17 +102,16 @@ function TasksPage() {
 
         <Profiler id="TaskList" onRender={handleTaskListRender}>
           <div className="task-list">
-            {visibleTasks.map((task) => {
-              const project = getProjectById(projects, task.projectId);
-
-              return (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  projectName={project?.name ?? "Proyecto sin identificar"}
-                />
-              );
-            })}
+            {visibleTasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                projectName={
+                  projectNamesById.get(task.projectId) ??
+                  "Proyecto sin identificar"
+                }
+              />
+            ))}
           </div>
         </Profiler>
 
