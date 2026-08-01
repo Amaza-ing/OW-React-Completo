@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Task } from "../../model/task";
 import {
   getTaskPriorityLabel,
@@ -40,4 +41,4 @@ function TaskItem({ task, projectName }: TaskItemProps) {
   );
 }
 
-export default TaskItem;
+export default memo(TaskItem);
