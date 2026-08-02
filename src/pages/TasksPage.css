@@ -1,6 +1,7 @@
 .tasks-page {
   .tasks-page__controls {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
 
     > label {
@@ -25,6 +26,27 @@
         outline-offset: 2px;
         border-color: #2563eb;
       }
+    }
+  }
+
+  .tasks-page__status {
+    margin: 0 0 1rem;
+    color: #475569;
+  }
+
+  .tasks-page__results {
+    transition: opacity 160ms ease;
+
+    &[aria-busy="true"] {
+      opacity: 0.6;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tasks-page {
+    .tasks-page__results {
+      transition: none;
     }
   }
 }
