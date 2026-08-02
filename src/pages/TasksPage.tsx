@@ -1,12 +1,11 @@
 import {
-  Profiler,
   useCallback,
   useDeferredValue,
   useMemo,
   useState,
   useTransition,
 } from "react";
-import type { ChangeEventHandler, ProfilerOnRenderCallback } from "react";
+import type { ChangeEventHandler } from "react";
 import { projects } from "../features/projects";
 import {
   TaskForm,
@@ -47,20 +46,6 @@ function isTaskStatusFilter(value: string): value is TaskStatusFilter {
   return taskStatusFilterOptions.some((option) => option.value === value);
 }
 
-const handleTaskListRender: ProfilerOnRenderCallback = (
-  id,
-  phase,
-  actualDuration,
-  baseDuration,
-) => {
-  console.table({
-    id,
-    phase,
-    actualDuration: Number(actualDuration.toFixed(2)),
-    baseDuration: Number(baseDuration.toFixed(2)),
-  });
-};
-
 function TasksPage() {
   const { tasks, addTask, resetTasks, isSavingTask } = useOptimisticTasks();
 
@@ -74,7 +59,7 @@ function TasksPage() {
 
   const [statusFilter, setStatusFilter] = useState<TaskStatusFilter>("all");
 
-  const [isPending, startTransition] = useTransition();
+  const [isStatusPending, startTransition] = useTransition();
 
   const projectNamesById = useMemo(
     () => new Map(projects.map((project) => [project.id, project.name])),
@@ -117,7 +102,7 @@ function TasksPage() {
     [],
   );
 
-  const isUpdatingResults = isPending || isSearchPending;
+  const isUpdatingResults = isStatusPending || isSearchPending;
 
   return (
     <div className="page tasks-page">
@@ -146,7 +131,7 @@ function TasksPage() {
       <ContentPanel
         eyebrow="Filtros"
         title="Buscar y filtrar tareas"
-        meta="El input conserva el valor actual mientras el listado utiliza una versión diferida"
+        meta="La entrada permanece inmediata aunque el listado tarde más en actualizarse"
       >
         <div className="tasks-page__controls">
           <TaskSearch value={search} onChange={handleSearchChange} />
@@ -180,17 +165,14 @@ function TasksPage() {
       >
         {isSavingTask && <p role="status">Guardando la nueva tarea...</p>}
 
-        {isPending && <p role="status">Actualizando el filtro de estado...</p>}
-
-        {isSearchPending && (
-          <p role="status">
-            Mostrando los resultados anteriores mientras se actualiza la
-            búsqueda...
+        {isUpdatingResults && (
+          <p className="tasks-page__status" role="status">
+            Actualizando los resultados...
           </p>
         )}
 
-        <Profiler id="TaskList" onRender={handleTaskListRender}>
-          <div className="task-list" aria-busy={isUpdatingResults}>
+        <div className="tasks-page__results" aria-busy={isUpdatingResults}>
+          <div className="task-list">
             {visibleTasks.map((task) => (
               <TaskItem
                 key={task.id}
@@ -202,11 +184,11 @@ function TasksPage() {
               />
             ))}
           </div>
-        </Profiler>
 
-        {visibleTasks.length === 0 && (
-          <p>No hay tareas para los filtros seleccionados.</p>
-        )}
+          {visibleTasks.length === 0 && (
+            <p>No hay tareas para los filtros seleccionados.</p>
+          )}
+        </div>
       </ContentPanel>
     </div>
   );
