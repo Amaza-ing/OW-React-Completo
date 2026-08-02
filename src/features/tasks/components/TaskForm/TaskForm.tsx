@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Project } from "../../../projects/model/project";
 import { useTaskForm } from "../../hooks/useTaskForm";
 import { taskPriorityOptions, type AddTaskHandler } from "../../model/task";
@@ -9,6 +10,14 @@ type TaskFormProps = {
 };
 
 function TaskForm({ projects, onAddTask }: TaskFormProps) {
+  const fieldId = useId();
+
+  const titleId = `${fieldId}-title`;
+  const projectId = `${fieldId}-project`;
+  const priorityId = `${fieldId}-priority`;
+  const dueDateId = `${fieldId}-due-date`;
+  const feedbackId = `${fieldId}-feedback`;
+
   const {
     formData,
     feedback,
@@ -24,6 +33,9 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
     onAddTask,
   });
 
+  const feedbackDescriptionId =
+    feedback.type === "idle" ? undefined : feedbackId;
+
   return (
     <form
       className="task-form"
@@ -32,15 +44,17 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
       noValidate
     >
       <div className="task-form__grid">
-        <label className="task-form__field">
+        <label className="task-form__field" htmlFor={titleId}>
           <span>Título</span>
 
           <input
             ref={titleInputRef}
+            id={titleId}
             type="text"
             name="title"
             value={formData.title}
             onChange={handleTitleChange}
+            aria-describedby={feedbackDescriptionId}
             placeholder="Ej. Preparar presentación"
             autoComplete="off"
             disabled={isPending}
@@ -48,13 +62,15 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
           />
         </label>
 
-        <label className="task-form__field">
+        <label className="task-form__field" htmlFor={projectId}>
           <span>Proyecto</span>
 
           <select
+            id={projectId}
             name="projectId"
             value={formData.projectId}
             onChange={handleProjectChange}
+            aria-describedby={feedbackDescriptionId}
             disabled={isPending}
             required
           >
@@ -70,13 +86,15 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
           </select>
         </label>
 
-        <label className="task-form__field">
+        <label className="task-form__field" htmlFor={priorityId}>
           <span>Prioridad</span>
 
           <select
+            id={priorityId}
             name="priority"
             value={formData.priority}
             onChange={handlePriorityChange}
+            aria-describedby={feedbackDescriptionId}
             disabled={isPending}
           >
             {taskPriorityOptions.map((option) => (
@@ -87,14 +105,16 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
           </select>
         </label>
 
-        <label className="task-form__field">
+        <label className="task-form__field" htmlFor={dueDateId}>
           <span>Fecha o plazo</span>
 
           <input
+            id={dueDateId}
             type="text"
             name="dueDate"
             value={formData.dueDate}
             onChange={handleDueDateChange}
+            aria-describedby={feedbackDescriptionId}
             placeholder="Ej. Viernes"
             autoComplete="off"
             disabled={isPending}
@@ -105,6 +125,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
 
       {feedback.type !== "idle" && (
         <p
+          id={feedbackId}
           className={`task-form__feedback task-form__feedback--${feedback.type}`}
           role={feedback.type === "error" ? "alert" : "status"}
         >
@@ -112,29 +133,25 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
         </p>
       )}
 
-      <div className="task-form__footer">
-        <p>Las nuevas tareas se crearán con estado pendiente.</p>
+      <div className="task-form__actions">
+        <button
+          className="task-form__reset"
+          type="submit"
+          name="intent"
+          value="reset"
+          disabled={isPending}
+        >
+          Limpiar
+        </button>
 
-        <div className="task-form__actions">
-          <button
-            className="task-form__reset"
-            type="submit"
-            name="intent"
-            value="reset"
-            disabled={isPending}
-          >
-            Limpiar
-          </button>
-
-          <button
-            type="submit"
-            name="intent"
-            value="submit"
-            disabled={projects.length === 0 || isPending}
-          >
-            {isPending ? "Procesando..." : "Añadir tarea"}
-          </button>
-        </div>
+        <button
+          type="submit"
+          name="intent"
+          value="submit"
+          disabled={projects.length === 0 || isPending}
+        >
+          {isPending ? "Procesando..." : "Añadir tarea"}
+        </button>
       </div>
     </form>
   );
