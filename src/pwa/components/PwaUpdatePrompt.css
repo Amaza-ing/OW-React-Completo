@@ -1,0 +1,42 @@
+.pwa-update-prompt {
+  width: 100%;
+  padding: 1rem;
+  color: #e2e8f0;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 0.85rem;
+  box-shadow: 0 1rem 2.5rem rgb(15 23 42 / 28%);
+  pointer-events: auto;
+
+  > p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .pwa-update-prompt__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+
+    > button {
+      padding: 0.6rem 0.8rem;
+      color: #0f172a;
+      background-color: #f8fafc;
+      border: 0;
+      border-radius: 0.55rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #e2e8f0;
+      }
+
+      &:focus-visible {
+        outline: 3px solid #7dd3fc;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
