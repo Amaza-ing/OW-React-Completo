@@ -1,12 +1,9 @@
-// npm install react-router
-// npm install @tanstack/react-query
-// npm install --save-dev graphql graphql-yoga
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./app/App.tsx";
 import { BrowserRouter } from "react-router";
+import App from "./app/App";
+import "./index.css";
+import { registerServiceWorker } from "./pwa/registerServiceWorker";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,3 +12,7 @@ createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </StrictMode>,
 );
+
+window.addEventListener("load", () => {
+  void registerServiceWorker();
+});
