@@ -1,0 +1,30 @@
+.install-app-button {
+  width: fit-content;
+  padding: 0.65rem 0.85rem;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  box-shadow: 0 0.75rem 2rem rgb(15 23 42 / 18%);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+  pointer-events: auto;
+
+  &:hover {
+    background-color: #e2e8f0;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #38bdf8;
+    outline-offset: 2px;
+  }
+
+  &.install-app-button--installed {
+    color: #dcfce7;
+    background-color: #14532d;
+    border-color: #166534;
+    cursor: default;
+  }
+}
