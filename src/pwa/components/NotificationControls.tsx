@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  listenToFirebaseRegistration,
+  listenToForegroundMessages,
+  registerFirebaseMessaging,
+} from "../firebase/firebaseMessaging";
 import { useNotificationPermission } from "../hooks/useNotificationPermission";
 import { showPersistentNotification } from "../notifications/showPersistentNotification";
 import "./NotificationControls.css";
@@ -8,12 +13,64 @@ function NotificationControls() {
 
   const [feedback, setFeedback] = useState("");
 
-  const handleNotification = async () => {
-    setFeedback("");
+  const [installationId, setInstallationId] = useState("");
 
-    if (permission === "unsupported") {
-      return;
-    }
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  useEffect(() => {
+    let stopRegistrationListener: (() => void) | null = null;
+
+    let stopMessageListener: (() => void) | null = null;
+
+    let cancelled = false;
+
+    void listenToFirebaseRegistration((nextInstallationId) => {
+      if (cancelled) {
+        return;
+      }
+
+      setInstallationId(nextInstallationId);
+
+      setFeedback("Firebase ha registrado esta instalación.");
+    }).then((stopListening) => {
+      if (cancelled) {
+        stopListening?.();
+        return;
+      }
+
+      stopRegistrationListener = stopListening;
+    });
+
+    void listenToForegroundMessages((payload) => {
+      if (cancelled) {
+        return;
+      }
+
+      const title =
+        payload.notification?.title ??
+        payload.data?.title ??
+        "Mensaje recibido";
+
+      setFeedback(`${title} se ha recibido con TaskFlow abierta.`);
+    }).then((stopListening) => {
+      if (cancelled) {
+        stopListening?.();
+        return;
+      }
+
+      stopMessageListener = stopListening;
+    });
+
+    return () => {
+      cancelled = true;
+      stopRegistrationListener?.();
+      stopMessageListener?.();
+    };
+  }, []);
+
+  const handleRegisterPush = async () => {
+    setIsRegistering(true);
+    setFeedback("");
 
     try {
       const nextPermission =
@@ -24,12 +81,28 @@ function NotificationControls() {
         return;
       }
 
+      await registerFirebaseMessaging();
+
+      setFeedback("Registro solicitado a Firebase.");
+    } catch (error) {
+      setFeedback(
+        error instanceof Error
+          ? error.message
+          : "No se ha podido registrar Firebase Messaging.",
+      );
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  const handleTestNotification = async () => {
+    try {
       await showPersistentNotification({
         title: "TaskFlow",
-        body: "Las notificaciones están preparadas.",
+        body: "La notificación local continúa funcionando.",
       });
 
-      setFeedback("Notificación de prueba enviada.");
+      setFeedback("Notificación local enviada.");
     } catch (error) {
       setFeedback(
         error instanceof Error
@@ -42,7 +115,7 @@ function NotificationControls() {
   if (permission === "unsupported") {
     return (
       <p className="notification-controls__message">
-        Este navegador no admite notificaciones persistentes.
+        Este navegador no admite Firebase Messaging para web.
       </p>
     );
   }
@@ -62,14 +135,34 @@ function NotificationControls() {
         <button
           type="button"
           onClick={() => {
-            void handleNotification();
+            void handleRegisterPush();
           }}
+          disabled={isRegistering || installationId !== ""}
         >
-          {permission === "granted"
-            ? "Probar notificación"
-            : "Activar notificaciones"}
+          {isRegistering
+            ? "Conectando..."
+            : installationId === ""
+              ? "Activar push"
+              : "Push activado"}
         </button>
+
+        {permission === "granted" && (
+          <button
+            type="button"
+            onClick={() => {
+              void handleTestNotification();
+            }}
+          >
+            Probar local
+          </button>
+        )}
       </div>
+
+      {installationId !== "" && (
+        <p>
+          Instalación registrada: <code>{installationId.slice(0, 12)}…</code>
+        </p>
+      )}
 
       {feedback !== "" && <p role="status">{feedback}</p>}
     </section>
