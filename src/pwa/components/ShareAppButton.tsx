@@ -10,7 +10,7 @@ function ShareAppButton() {
     setFeedback("");
 
     try {
-      if ("share" in navigator) {
+      if (typeof navigator.share === "function") {
         await navigator.share({
           title: "TaskFlow",
           text: "Consulta esta pantalla de TaskFlow.",
