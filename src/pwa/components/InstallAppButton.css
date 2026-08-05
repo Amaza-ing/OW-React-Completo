@@ -1,5 +1,7 @@
-.install-app-button {
+.install-app-button,
+.install-app-guide {
   width: fit-content;
+  min-height: 44px;
   padding: 0.65rem 0.85rem;
   color: #0f172a;
   background-color: #f8fafc;
@@ -9,8 +11,11 @@
   font: inherit;
   font-size: 0.875rem;
   font-weight: 800;
-  cursor: pointer;
   pointer-events: auto;
+}
+
+.install-app-button {
+  cursor: pointer;
 
   &:hover {
     background-color: #e2e8f0;
@@ -22,9 +27,33 @@
   }
 
   &.install-app-button--installed {
+    display: inline-flex;
+    align-items: center;
     color: #dcfce7;
     background-color: #14532d;
     border-color: #166534;
     cursor: default;
+  }
+}
+
+.install-app-guide {
+  border-radius: 0.85rem;
+
+  > summary {
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid #38bdf8;
+      outline-offset: 2px;
+    }
+  }
+
+  > ol {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+    font-weight: 500;
+    line-height: 1.45;
   }
 }
