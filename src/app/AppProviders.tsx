@@ -1,7 +1,8 @@
-import { QueryClientProvider } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import type { ReactNode } from "react";
 import { TasksProvider } from "../features/tasks";
 import { queryClient } from "./queryClient";
+import { QUERY_CACHE_MAX_AGE, queryPersister } from "./queryPersistence";
 
 type AppProvidersProps = {
   children: ReactNode;
@@ -9,9 +10,15 @@ type AppProvidersProps = {
 
 function AppProviders({ children }: AppProvidersProps) {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: queryPersister,
+        maxAge: QUERY_CACHE_MAX_AGE,
+      }}
+    >
       <TasksProvider>{children}</TasksProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }
 
