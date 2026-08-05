@@ -3,11 +3,13 @@ import "./other.css";
 import AppRoutes from "./AppRoutes";
 import AppProviders from "./AppProviders";
 import PwaControls from "../pwa/components/PwaControls";
+import PwaTaskBridge from "./PwaTaskBridge";
 
 function App() {
   return (
     <AppProviders>
-      <AppRoutes />;
+      <AppRoutes />
+      <PwaTaskBridge />
       <PwaControls />
     </AppProviders>
   );
