@@ -58,6 +58,23 @@ export default defineConfig({
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
         navigateFallback: "index.html",
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) =>
+              url.pathname === "/graphql" &&
+              url.searchParams.get("taskflow-sync") === "1",
+            handler: "NetworkOnly",
+            method: "POST",
+            options: {
+              backgroundSync: {
+                name: "taskflow-project-members",
+                options: {
+                  maxRetentionTime: 24 * 60,
+                },
+              },
+            },
+          },
+        ],
       },
     }),
   ],
