@@ -29,6 +29,14 @@
     }
   }
 
+  .tasks-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
   .tasks-page__status {
     margin: 0 0 1rem;
     color: #475569;
@@ -39,6 +47,19 @@
 
     &[aria-busy="true"] {
       opacity: 0.6;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .tasks-page {
+    .tasks-page__actions {
+      display: grid;
+      width: 100%;
+
+      > button {
+        width: 100%;
+      }
     }
   }
 }

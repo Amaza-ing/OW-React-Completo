@@ -14,6 +14,7 @@ import {
   useOptimisticTasks,
   type TaskStatus,
 } from "../features/tasks";
+import TaskReminderButton from "../pwa/components/TaskReminderButton";
 import ContentPanel from "../shared/components/common/ContentPanel";
 import PageHeader from "../shared/components/common/PageHeader";
 import "./TasksPage.css";
@@ -104,6 +105,10 @@ function TasksPage() {
 
   const isUpdatingResults = isStatusPending || isSearchPending;
 
+  const openTaskCount = tasks.filter(
+    (task) => task.status !== "completed",
+  ).length;
+
   return (
     <div className="page tasks-page">
       <title>{`TaskFlow | ${tasks.length} tareas`}</title>
@@ -153,14 +158,18 @@ function TasksPage() {
       <ContentPanel
         ariaLabel="Listado de tareas"
         actions={
-          <button
-            className="page-action page-action--secondary"
-            type="button"
-            onClick={resetTasks}
-            disabled={isSavingTask}
-          >
-            Restablecer tareas
-          </button>
+          <div className="tasks-page__actions">
+            <TaskReminderButton openTaskCount={openTaskCount} />
+
+            <button
+              className="page-action page-action--secondary"
+              type="button"
+              onClick={resetTasks}
+              disabled={isSavingTask}
+            >
+              Restablecer tareas
+            </button>
+          </div>
         }
       >
         {isSavingTask && <p role="status">Guardando la nueva tarea...</p>}
