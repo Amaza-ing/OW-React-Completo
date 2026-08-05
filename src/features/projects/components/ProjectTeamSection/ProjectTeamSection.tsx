@@ -59,6 +59,9 @@ function ProjectTeamContent({ projectId }: ProjectTeamSectionProps) {
 
   const addProjectMemberMutation = useAddProjectMemberMutation();
 
+  const mutationFailedOffline =
+    addProjectMemberMutation.isError && !navigator.onLine;
+
   function handleAddMember(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -148,7 +151,14 @@ function ProjectTeamContent({ projectId }: ProjectTeamSectionProps) {
           </button>
         </form>
 
-        {addProjectMemberMutation.isError && (
+        {mutationFailedOffline && (
+          <p role="status">
+            Sin conexión. La petición se ha guardado y se reintentará cuando el
+            navegador recupere la red.
+          </p>
+        )}
+
+        {addProjectMemberMutation.isError && !mutationFailedOffline && (
           <>
             <p role="alert">No se ha podido añadir el miembro.</p>
 
