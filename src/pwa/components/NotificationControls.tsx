@@ -5,7 +5,6 @@ import {
   registerFirebaseMessaging,
 } from "../firebase/firebaseMessaging";
 import { useNotificationPermission } from "../hooks/useNotificationPermission";
-import { showPersistentNotification } from "../notifications/showPersistentNotification";
 import "./NotificationControls.css";
 
 function NotificationControls() {
@@ -95,23 +94,6 @@ function NotificationControls() {
     }
   };
 
-  const handleTestNotification = async () => {
-    try {
-      await showPersistentNotification({
-        title: "TaskFlow",
-        body: "La notificación local continúa funcionando.",
-      });
-
-      setFeedback("Notificación local enviada.");
-    } catch (error) {
-      setFeedback(
-        error instanceof Error
-          ? error.message
-          : "No se ha podido mostrar la notificación.",
-      );
-    }
-  };
-
   if (permission === "unsupported") {
     return (
       <p className="notification-controls__message">
@@ -130,7 +112,7 @@ function NotificationControls() {
   }
 
   return (
-    <section className="notification-controls" aria-label="Notificaciones">
+    <section className="notification-controls" aria-label="Notificaciones push">
       <div className="notification-controls__actions">
         <button
           type="button"
@@ -145,17 +127,6 @@ function NotificationControls() {
               ? "Activar push"
               : "Push activado"}
         </button>
-
-        {permission === "granted" && (
-          <button
-            type="button"
-            onClick={() => {
-              void handleTestNotification();
-            }}
-          >
-            Probar local
-          </button>
-        )}
       </div>
 
       {installationId !== "" && (
