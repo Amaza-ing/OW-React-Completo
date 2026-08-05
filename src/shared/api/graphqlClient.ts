@@ -23,6 +23,7 @@ type GraphQLRequestOptions<TVariables extends GraphQLVariables> = {
   operationName?: string;
   variables?: TVariables;
   signal?: AbortSignal;
+  backgroundSync?: boolean;
 };
 
 export class GraphQLClientError extends Error {
@@ -40,14 +41,22 @@ export class GraphQLClientError extends Error {
   }
 }
 
-function getGraphQLEndpoint(): string {
+function getGraphQLEndpoint(backgroundSync: boolean): string {
   const endpoint = import.meta.env.VITE_GRAPHQL_API_URL;
 
   if (typeof endpoint !== "string" || endpoint.trim() === "") {
     throw new Error("Falta configurar VITE_GRAPHQL_API_URL.");
   }
 
-  return endpoint;
+  if (!backgroundSync) {
+    return endpoint;
+  }
+
+  const syncEndpoint = new URL(endpoint, window.location.origin);
+
+  syncEndpoint.searchParams.set("taskflow-sync", "1");
+
+  return syncEndpoint.toString();
 }
 
 async function readGraphQLResponse<TData>(
@@ -70,8 +79,9 @@ export async function requestGraphQL<
   operationName,
   variables,
   signal,
+  backgroundSync = false,
 }: GraphQLRequestOptions<TVariables>): Promise<TData> {
-  const response = await fetch(getGraphQLEndpoint(), {
+  const response = await fetch(getGraphQLEndpoint(backgroundSync), {
     method: "POST",
     headers: {
       Accept: "application/graphql-response+json, application/json",
