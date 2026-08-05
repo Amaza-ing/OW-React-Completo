@@ -12,8 +12,26 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<InstallChoice>;
 }
 
+type NavigatorWithStandalone = Navigator & {
+  standalone?: boolean;
+};
+
 function isStandaloneMode() {
-  return window.matchMedia("(display-mode: standalone)").matches;
+  const iosNavigator = navigator as NavigatorWithStandalone;
+
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    iosNavigator.standalone === true
+  );
+}
+
+function isIosDevice() {
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  return (
+    /iphone|ipad|ipod/.test(userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
 }
 
 export function useInstallPrompt() {
@@ -59,9 +77,14 @@ export function useInstallPrompt() {
     setInstallPrompt(null);
   };
 
+  const canInstall = installPrompt !== null && !isInstalled;
+
+  const needsManualIosInstall = isIosDevice() && !isInstalled && !canInstall;
+
   return {
-    canInstall: installPrompt !== null && !isInstalled,
+    canInstall,
     isInstalled,
+    needsManualIosInstall,
     installApp,
   };
 }
