@@ -86,6 +86,7 @@ export async function addProjectMember({
         role,
       },
     },
+    backgroundSync: true,
   });
 
   return mapProjectMember(data.addProjectMember);
