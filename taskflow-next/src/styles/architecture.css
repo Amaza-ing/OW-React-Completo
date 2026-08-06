@@ -1,0 +1,68 @@
+.architecture-overview {
+  display: grid;
+  gap: 1rem;
+
+  .architecture-overview__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+  }
+
+  article {
+    display: grid;
+    gap: 0.65rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 0.9rem;
+
+    span {
+      color: #2563eb;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: #64748b;
+      line-height: 1.55;
+    }
+  }
+}
+
+.strategy-explorer {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  background-color: #0f172a;
+  border-radius: 1rem;
+
+  label {
+    display: grid;
+    gap: 0.5rem;
+    color: #e2e8f0;
+    font-weight: 700;
+  }
+
+  select {
+    width: min(100%, 24rem);
+    padding: 0.7rem 0.8rem;
+    color: #0f172a;
+    background-color: #ffffff;
+    border: 1px solid #94a3b8;
+    border-radius: 0.65rem;
+  }
+
+  .strategy-explorer__result {
+    display: grid;
+    gap: 0.65rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 0.8rem;
+
+    p {
+      color: #475569;
+      line-height: 1.6;
+    }
+  }
+}
