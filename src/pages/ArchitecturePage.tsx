@@ -1,3 +1,4 @@
+import ArchitectureAdvisor from "../features/architecture/components/ArchitectureAdvisor";
 import ArchitectureOptionCards from "../features/architecture/components/ArchitectureOptionCards";
 import RenderingImpactTable from "../features/architecture/components/RenderingImpactTable";
 import SpaSuitabilityPanel from "../features/architecture/components/SpaSuitabilityPanel";
@@ -114,6 +115,18 @@ function ArchitecturePage() {
         </header>
 
         <ArchitectureOptionCards />
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>Seleccionar según el producto</h2>
+          <p>
+            Cambia las respuestas para comprobar cómo los requisitos alteran la
+            opción que merece ser evaluada primero.
+          </p>
+        </header>
+
+        <ArchitectureAdvisor />
       </section>
     </div>
   );
