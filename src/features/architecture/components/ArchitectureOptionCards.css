@@ -1,0 +1,52 @@
+.architecture-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+
+  .architecture-options__card {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.85rem;
+
+    header,
+    div {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    h3,
+    h4,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    h3 {
+      color: #0f172a;
+      font-size: 1.1rem;
+    }
+
+    h4 {
+      color: #334155;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p,
+    li {
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    ul {
+      display: grid;
+      gap: 0.35rem;
+      padding-left: 1.2rem;
+    }
+  }
+}
