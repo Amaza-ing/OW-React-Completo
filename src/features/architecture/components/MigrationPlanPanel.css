@@ -1,0 +1,95 @@
+.migration-plan {
+  display: grid;
+  gap: 1rem;
+
+  .migration-plan__item {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.85rem;
+
+    header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    header div,
+    > div {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    span {
+      color: #64748b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.85rem;
+    }
+
+    h3,
+    h4,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    h4 {
+      color: #334155;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p,
+    li {
+      color: #475569;
+      line-height: 1.55;
+    }
+
+    ul {
+      display: grid;
+      gap: 0.35rem;
+      padding-left: 1.2rem;
+    }
+  }
+
+  .migration-plan__status {
+    width: fit-content;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .migration-plan__status--ready {
+    color: #166534;
+    background-color: #dcfce7;
+    border-color: #86efac;
+  }
+
+  .migration-plan__status--adapt {
+    color: #92400e;
+    background-color: #fef3c7;
+    border-color: #fcd34d;
+  }
+
+  .migration-plan__status--keep-client {
+    color: #1e3a8a;
+    background-color: #dbeafe;
+    border-color: #93c5fd;
+  }
+}
+
+@media (max-width: 640px) {
+  .migration-plan {
+    .migration-plan__item {
+      header {
+        display: grid;
+      }
+    }
+  }
+}
