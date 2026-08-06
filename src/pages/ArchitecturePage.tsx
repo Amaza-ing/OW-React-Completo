@@ -1,8 +1,11 @@
-import ArchitectureAdvisor from "../features/architecture/components/ArchitectureAdvisor";
-import ArchitectureOptionCards from "../features/architecture/components/ArchitectureOptionCards";
-import RenderingImpactTable from "../features/architecture/components/RenderingImpactTable";
-import SpaSuitabilityPanel from "../features/architecture/components/SpaSuitabilityPanel";
-import { renderingStrategies } from "../features/architecture/renderingStrategies";
+import {
+  ArchitectureAdvisor,
+  ArchitectureOptionCards,
+  MigrationPlanPanel,
+  RenderingImpactTable,
+  SpaSuitabilityPanel,
+  renderingStrategies,
+} from "../features/architecture";
 import PageHeader from "../shared/components/common/PageHeader";
 import "./ArchitecturePage.css";
 
@@ -127,6 +130,18 @@ function ArchitecturePage() {
         </header>
 
         <ArchitectureAdvisor />
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>Plan de migración parcial</h2>
+          <p>
+            Antes de crear otro proyecto, delimitamos qué rutas pueden moverse
+            primero y qué dependencias deben mantenerse en cliente.
+          </p>
+        </header>
+
+        <MigrationPlanPanel />
       </section>
     </div>
   );
