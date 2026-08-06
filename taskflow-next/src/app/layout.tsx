@@ -19,6 +19,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <nav aria-label="Navegación principal">
               <Link href="/">Inicio</Link>
               <Link href="/architecture">Arquitectura</Link>
+              <Link href="/projects">Proyectos</Link>
             </nav>
           </header>
 
