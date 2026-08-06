@@ -1,3 +1,4 @@
+import RenderingImpactTable from "../features/architecture/components/RenderingImpactTable";
 import SpaSuitabilityPanel from "../features/architecture/components/SpaSuitabilityPanel";
 import { renderingStrategies } from "../features/architecture/renderingStrategies";
 import PageHeader from "../shared/components/common/PageHeader";
@@ -21,7 +22,7 @@ function ArchitecturePage() {
       />
 
       <p className="architecture-page__intro">
-        TaskFlow es actualmente una SPA creada con Vite. Esta pantalla permitirá
+        TaskFlow es actualmente una SPA creada con Vite. Esta pantalla permite
         comparar su enfoque actual con otras estrategias sin cambiar todavía el
         runtime ni crear un segundo proyecto.
       </p>
@@ -87,6 +88,19 @@ function ArchitecturePage() {
         </header>
 
         <SpaSuitabilityPanel />
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>Impacto sobre producto y equipo</h2>
+          <p>
+            Ninguna estrategia gana en todas las columnas. La decisión debe
+            equilibrar descubrimiento, velocidad, frescura y coste de
+            desarrollo.
+          </p>
+        </header>
+
+        <RenderingImpactTable />
       </section>
     </div>
   );
