@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="page">
-      <p className="page__eyebrow">Curso 7 · Next.js</p>
+      <p className="page__eyebrow">Next.js</p>
       <h1>Una nueva versión de TaskFlow</h1>
 
       <p className="page__lead">
