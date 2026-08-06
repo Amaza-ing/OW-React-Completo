@@ -1,0 +1,103 @@
+.architecture-advisor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.9fr);
+  gap: 1rem;
+
+  .architecture-advisor__form,
+  .architecture-advisor__result {
+    padding: 1rem;
+    border-radius: 0.85rem;
+  }
+
+  .architecture-advisor__form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+
+    label {
+      display: grid;
+      align-content: start;
+      gap: 0.45rem;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    select {
+      width: 100%;
+      min-height: 2.75rem;
+      padding: 0.65rem 0.75rem;
+      color: #0f172a;
+      background-color: #ffffff;
+      border: 1px solid #94a3b8;
+      border-radius: 0.65rem;
+
+      &:focus-visible {
+        outline: 3px solid #7dd3fc;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .architecture-advisor__result {
+    display: grid;
+    align-content: start;
+    gap: 0.7rem;
+    color: #0f172a;
+    border: 1px solid #94a3b8;
+
+    > span {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h3,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    p,
+    li {
+      line-height: 1.55;
+    }
+
+    ul {
+      display: grid;
+      gap: 0.4rem;
+      padding-left: 1.2rem;
+    }
+  }
+
+  .architecture-advisor__result--vite-react {
+    background-color: #ecfeff;
+    border-color: #67e8f9;
+  }
+
+  .architecture-advisor__result--next-app-router {
+    background-color: #f8fafc;
+    border-color: #64748b;
+  }
+
+  .architecture-advisor__result--react-router-framework {
+    background-color: #f5f3ff;
+    border-color: #c4b5fd;
+  }
+}
+
+@media (max-width: 820px) {
+  .architecture-advisor {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .architecture-advisor {
+    .architecture-advisor__form {
+      grid-template-columns: 1fr;
+    }
+  }
+}
