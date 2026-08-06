@@ -1,3 +1,4 @@
+import SpaSuitabilityPanel from "../features/architecture/components/SpaSuitabilityPanel";
 import { renderingStrategies } from "../features/architecture/renderingStrategies";
 import PageHeader from "../shared/components/common/PageHeader";
 import "./ArchitecturePage.css";
@@ -13,7 +14,7 @@ function ArchitecturePage() {
       />
 
       <PageHeader
-        eyebrow="Curso 7"
+        eyebrow="Arquitectura"
         title="Laboratorio de arquitectura"
         description="Analiza cómo y cuándo se genera el HTML de una aplicación React."
         badge="5 estrategias"
@@ -74,6 +75,18 @@ function ArchitecturePage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>¿Sigue siendo suficiente una SPA?</h2>
+          <p>
+            Marca necesidades del producto. El resultado es una heurística
+            didáctica, no una regla automática para todos los proyectos.
+          </p>
+        </header>
+
+        <SpaSuitabilityPanel />
       </section>
     </div>
   );
