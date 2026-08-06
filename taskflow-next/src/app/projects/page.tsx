@@ -14,12 +14,6 @@ export default async function ProjectsPage() {
 
   return (
     <div className="page">
-      <p className="page__eyebrow">Server data</p>
-      <h1>Proyectos</h1>
-      <p className="page__lead">
-        La lista se obtiene desde GraphQL antes de renderizar la respuesta.
-      </p>
-
       <section className="projects-toolbar">
         <p>
           {visibleProjects.length} de {projects.length} proyectos visibles
