@@ -1,3 +1,4 @@
+import ArchitectureOptionCards from "../features/architecture/components/ArchitectureOptionCards";
 import RenderingImpactTable from "../features/architecture/components/RenderingImpactTable";
 import SpaSuitabilityPanel from "../features/architecture/components/SpaSuitabilityPanel";
 import { renderingStrategies } from "../features/architecture/renderingStrategies";
@@ -101,6 +102,18 @@ function ArchitecturePage() {
         </header>
 
         <RenderingImpactTable />
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>Tres opciones para una aplicación React</h2>
+          <p>
+            React con Vite, Next.js y React Router Framework Mode ofrecen
+            distintos niveles de convenciones, renderizado y runtime.
+          </p>
+        </header>
+
+        <ArchitectureOptionCards />
       </section>
     </div>
   );
