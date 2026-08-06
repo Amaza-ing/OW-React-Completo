@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import "./globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "TaskFlow Next",
+    template: "%s | TaskFlow Next",
+  },
+  description: "Migración progresiva de TaskFlow a Next.js con App Router.",
+};
 
 type RootLayoutProps = {
   children: ReactNode;
