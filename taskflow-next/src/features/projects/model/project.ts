@@ -1,6 +1,11 @@
 export const projectStatusValues = ["PLANNING", "ACTIVE", "COMPLETED"] as const;
-
 export type ProjectStatus = (typeof projectStatusValues)[number];
+
+export interface ProjectMember {
+  id: string;
+  name: string;
+  role: string;
+}
 
 export interface Project {
   id: string;
@@ -10,6 +15,13 @@ export interface Project {
   progress: number;
   dueDate: string;
   members: number;
+  team?: ProjectMember[];
+}
+
+export interface AddProjectMemberInput {
+  projectId: string;
+  name: string;
+  role: string;
 }
 
 export const projectStatusLabels = {
