@@ -8,4 +8,6 @@ export const ProjectDetailPage = lazy(
 
 export const TasksPage = lazy(() => import("../pages/TasksPage"));
 
+export const ArchitecturePage = lazy(() => import("../pages/ArchitecturePage"));
+
 export const NotFoundPage = lazy(() => import("../pages/NotFoundPage"));
