@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Project } from "../model/project";
 import { projectStatusLabels } from "../model/project";
 
@@ -31,6 +32,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <dd>{project.dueDate}</dd>
         </div>
       </dl>
+
+      <Link className="project-card__link" href={`/projects/${project.id}`}>
+        Ver proyecto
+      </Link>
     </article>
   );
 }
