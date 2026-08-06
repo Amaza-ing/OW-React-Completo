@@ -41,6 +41,17 @@ function Sidebar() {
               Tareas
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                `sidebar__link ${isActive ? "sidebar__link--active" : ""}`
+              }
+              to="/architecture"
+            >
+              Arquitectura
+            </NavLink>
+          </li>
         </ul>
       </nav>
 
