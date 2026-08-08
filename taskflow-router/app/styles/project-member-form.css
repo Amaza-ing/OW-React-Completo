@@ -1,0 +1,131 @@
+.member-form-panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.9rem;
+
+  > header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+
+    div {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    span {
+      color: #1d4ed8;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      max-width: 38ch;
+      color: #64748b;
+      line-height: 1.5;
+    }
+  }
+
+  .member-form-panel__feedback {
+    margin: 0;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid;
+    border-radius: 0.65rem;
+  }
+
+  .member-form-panel__feedback--success {
+    color: #166534;
+    background-color: #dcfce7;
+    border-color: #86efac;
+  }
+
+  .member-form-panel__feedback--error {
+    color: #991b1b;
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+  }
+}
+
+.member-form {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr auto;
+  align-items: end;
+  gap: 0.75rem;
+
+  label {
+    display: grid;
+    gap: 0.35rem;
+    color: #334155;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  input,
+  select {
+    width: 100%;
+    min-height: 2.7rem;
+    padding: 0.65rem 0.75rem;
+    color: #172033;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.6rem;
+
+    &:focus {
+      border-color: #2563eb;
+      outline: 3px solid rgb(37 99 235 / 16%);
+    }
+  }
+
+  button {
+    min-height: 2.7rem;
+    padding: 0.65rem 0.85rem;
+    color: #ffffff;
+    background-color: #1d4ed8;
+    border: 0;
+    border-radius: 0.6rem;
+    font-weight: 850;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background-color: #1e40af;
+    }
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .member-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .member-form-panel {
+    > header {
+      display: grid;
+    }
+  }
+
+  .member-form {
+    grid-template-columns: 1fr;
+  }
+}
