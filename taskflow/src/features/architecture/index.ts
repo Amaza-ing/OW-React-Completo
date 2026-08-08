@@ -1,5 +1,6 @@
 export { default as ArchitectureAdvisor } from "./components/ArchitectureAdvisor";
 export { default as ArchitectureOptionCards } from "./components/ArchitectureOptionCards";
+export { default as FrameworkModeApproach } from "./components/FrameworkModeApproach";
 export { default as MigrationPlanPanel } from "./components/MigrationPlanPanel";
 export { default as RenderingImpactTable } from "./components/RenderingImpactTable";
 export { default as SpaSuitabilityPanel } from "./components/SpaSuitabilityPanel";
