@@ -4,8 +4,11 @@ import {
   addProjectMember,
   getProjects,
 } from "~/features/projects/api/projectsGraphql.server";
-import ProjectCard from "~/features/projects/components/ProjectCard";
-import QuickMemberForm from "~/features/projects/components/QuickMemberForm";
+import {
+  ProjectCard,
+  ProjectSearchForm,
+  QuickMemberForm,
+} from "~/features/projects";
 import "~/styles/projects.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -13,14 +16,37 @@ export function meta({}: Route.MetaArgs) {
     {
       title: "TaskFlow Router | Proyectos",
     },
+    {
+      name: "description",
+      content: "Listado de proyectos con búsqueda gestionada desde el loader.",
+    },
   ];
 }
 
-export async function loader() {
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+
+  const search = url.searchParams.get("search")?.trim() ?? "";
+
   const projects = await getProjects();
 
+  const normalizedSearch = search.toLocaleLowerCase("es");
+
+  const filteredProjects =
+    normalizedSearch === ""
+      ? projects
+      : projects.filter((project) => {
+          const searchableText =
+            `${project.name} ${project.description}`.toLocaleLowerCase("es");
+
+          return searchableText.includes(normalizedSearch);
+        });
+
   return {
-    projects,
+    projects: filteredProjects,
+    allProjects: projects,
+    search,
+    totalProjects: projects.length,
   };
 }
 
@@ -62,25 +88,43 @@ export default function ProjectsIndex({
 }: Route.ComponentProps) {
   return (
     <div className="projects-index">
-      <QuickMemberForm projects={loaderData.projects} feedback={actionData} />
+      <ProjectSearchForm search={loaderData.search} />
+
+      <QuickMemberForm
+        projects={loaderData.allProjects}
+        feedback={actionData}
+      />
 
       <div className="projects-index__summary">
-        <p>Selecciona un proyecto para consultar su equipo.</p>
+        <p>
+          {loaderData.search === ""
+            ? "Selecciona un proyecto para consultar su equipo."
+            : `Resultados para “${loaderData.search}”.`}
+        </p>
 
-        <strong>{loaderData.projects.length} proyectos</strong>
+        <strong>
+          {loaderData.projects.length} de {loaderData.totalProjects}
+        </strong>
       </div>
 
-      <div className="projects-page__grid">
-        {loaderData.projects.map((project) => (
-          <Link
-            className="project-card-link"
-            key={project.id}
-            to={`/projects/${project.id}`}
-          >
-            <ProjectCard project={project} />
-          </Link>
-        ))}
-      </div>
+      {loaderData.projects.length === 0 ? (
+        <div className="empty-state">
+          <strong>No hay coincidencias</strong>
+          <p>Prueba con otro nombre o limpia la búsqueda.</p>
+        </div>
+      ) : (
+        <div className="projects-page__grid">
+          {loaderData.projects.map((project) => (
+            <Link
+              className="project-card-link"
+              key={project.id}
+              to={`/projects/${project.id}`}
+            >
+              <ProjectCard project={project} />
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
