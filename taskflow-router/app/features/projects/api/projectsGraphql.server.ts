@@ -1,4 +1,8 @@
-import type { Project } from "~/features/projects/model/project";
+import type {
+  AddProjectMemberInput,
+  Project,
+  ProjectMember,
+} from "~/features/projects/model/project";
 
 const GET_PROJECTS_QUERY = `
   query GetProjects {
@@ -14,6 +18,22 @@ const GET_PROJECTS_QUERY = `
   }
 `;
 
+const ADD_PROJECT_MEMBER_MUTATION = `
+  mutation AddProjectMember(
+    $projectId: ID!
+    $input: AddProjectMemberInput!
+  ) {
+    addProjectMember(
+      projectId: $projectId
+      input: $input
+    ) {
+      id
+      name
+      role
+    }
+  }
+`;
+
 type GraphQLError = {
   message: string;
 };
@@ -25,6 +45,10 @@ type GraphQLResponse<TData> = {
 
 type GetProjectsData = {
   projects: Project[];
+};
+
+type AddProjectMemberData = {
+  addProjectMember: ProjectMember;
 };
 
 function getGraphQLEndpoint() {
@@ -73,4 +97,23 @@ export async function getProjects(): Promise<Project[]> {
   const data = await requestGraphQL<GetProjectsData>(GET_PROJECTS_QUERY);
 
   return data.projects;
+}
+
+export async function addProjectMember({
+  projectId,
+  name,
+  role,
+}: AddProjectMemberInput): Promise<ProjectMember> {
+  const data = await requestGraphQL<AddProjectMemberData>(
+    ADD_PROJECT_MEMBER_MUTATION,
+    {
+      projectId,
+      input: {
+        name,
+        role,
+      },
+    },
+  );
+
+  return data.addProjectMember;
 }
