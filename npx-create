@@ -1,2 +1,5 @@
 npx create-next-app@latest taskflow-next --ts --eslint --app --src-dir --use-npm --import-alias "@/*" --no-tailwind --empty
 cd taskflow-next
+
+
+npx create-react-router@latest taskflow-router --no-agent-skills
