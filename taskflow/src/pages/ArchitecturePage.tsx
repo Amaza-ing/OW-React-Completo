@@ -1,6 +1,7 @@
 import {
   ArchitectureAdvisor,
   ArchitectureOptionCards,
+  FrameworkModeApproach,
   MigrationPlanPanel,
   RenderingImpactTable,
   SpaSuitabilityPanel,
@@ -20,22 +21,22 @@ function ArchitecturePage() {
       />
 
       <PageHeader
-        eyebrow="Arquitectura"
+        eyebrow="React Router Framework, enfoque Remix y React multiplataforma"
         title="Laboratorio de arquitectura"
-        description="Analiza cómo y cuándo se genera el HTML de una aplicación React."
-        badge="5 estrategias"
+        description="Analiza cómo cambia la responsabilidad de las rutas al adoptar un framework."
+        badge="React Router"
       />
 
       <p className="architecture-page__intro">
-        TaskFlow es actualmente una SPA creada con Vite. Esta pantalla permite
-        comparar su enfoque actual con otras estrategias sin cambiar todavía el
-        runtime ni crear un segundo proyecto.
+        TaskFlow continúa siendo una SPA creada con Vite. Antes de construir
+        otra versión, delimitamos qué aporta React Router cuando se utiliza como
+        framework y no únicamente como librería de navegación.
       </p>
 
       <p className="architecture-page__notice">
-        Streaming no sustituye necesariamente a SSR. Describe una entrega
-        progresiva de la respuesta del servidor, de modo que distintas regiones
-        puedan completarse en momentos diferentes.
+        Framework Mode no obliga a utilizar siempre SSR. Puede trabajar con
+        renderizado en servidor, prerenderizado o modo SPA según la
+        configuración del proyecto.
       </p>
 
       <section className="architecture-page__section">
@@ -81,6 +82,19 @@ function ArchitecturePage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="architecture-page__section">
+        <header className="architecture-page__section-header">
+          <h2>De router a framework</h2>
+          <p>
+            Las APIs de navegación siguen existiendo, pero loaders, actions y
+            módulos de ruta concentran más responsabilidades alrededor de la
+            URL.
+          </p>
+        </header>
+
+        <FrameworkModeApproach />
       </section>
 
       <section className="architecture-page__section">
