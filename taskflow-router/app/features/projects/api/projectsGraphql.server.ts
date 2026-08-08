@@ -18,6 +18,25 @@ const GET_PROJECTS_QUERY = `
   }
 `;
 
+const GET_PROJECT_QUERY = `
+  query GetProject($projectId: ID!) {
+    project(id: $projectId) {
+      id
+      name
+      description
+      status
+      progress
+      dueDate
+      members
+      team {
+        id
+        name
+        role
+      }
+    }
+  }
+`;
+
 const ADD_PROJECT_MEMBER_MUTATION = `
   mutation AddProjectMember(
     $projectId: ID!
@@ -45,6 +64,10 @@ type GraphQLResponse<TData> = {
 
 type GetProjectsData = {
   projects: Project[];
+};
+
+type GetProjectData = {
+  project: Project | null;
 };
 
 type AddProjectMemberData = {
@@ -97,6 +120,14 @@ export async function getProjects(): Promise<Project[]> {
   const data = await requestGraphQL<GetProjectsData>(GET_PROJECTS_QUERY);
 
   return data.projects;
+}
+
+export async function getProject(projectId: string): Promise<Project | null> {
+  const data = await requestGraphQL<GetProjectData>(GET_PROJECT_QUERY, {
+    projectId,
+  });
+
+  return data.project;
 }
 
 export async function addProjectMember({
