@@ -1,6 +1,6 @@
 import type { Route } from "./+types/detail";
 import { getProject } from "~/features/projects/api/projectsGraphql.server";
-import { projectStatusLabels } from "~/features/projects/model/project";
+import { projectStatusLabels } from "~/features/projects";
 import "~/styles/project-detail.css";
 
 export async function loader({ params }: Route.LoaderArgs) {
