@@ -1,37 +1,26 @@
+import type { ReactNode } from "react";
 import {
   isRouteErrorResponse,
   Links,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
-
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
+
       <body>
         {children}
         <ScrollRestoration />
@@ -42,34 +31,70 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <div className="app-shell">
+      <header className="app-header">
+        <NavLink className="app-header__brand" to="/">
+          TaskFlow Router
+        </NavLink>
+
+        <nav
+          className="app-header__navigation"
+          aria-label="Navegación principal"
+        >
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "app-header__link app-header__link--active"
+                : "app-header__link"
+            }
+            end
+            to="/"
+          >
+            Inicio
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "app-header__link app-header__link--active"
+                : "app-header__link"
+            }
+            to="/projects"
+          >
+            Proyectos
+          </NavLink>
+        </nav>
+      </header>
+
+      <main className="app-content">
+        <Outlet />
+      </main>
+    </div>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+  let title = "Error inesperado";
+  let message = "No se ha podido mostrar esta pantalla.";
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
+    title =
+      error.status === 404 ? "Página no encontrada" : `Error ${error.status}`;
+
+    message = typeof error.data === "string" ? error.data : error.statusText;
+  } else if (import.meta.env.DEV && error instanceof Error) {
+    message = error.message;
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+    <main className="error-page">
+      <p className="page__eyebrow">TaskFlow Router</p>
+      <h1>{title}</h1>
+      <p>{message}</p>
+      <NavLink className="button-link" to="/">
+        Volver al inicio
+      </NavLink>
     </main>
   );
 }
