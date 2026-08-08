@@ -3,14 +3,6 @@ import {
   type Project,
 } from "~/features/projects/model/project";
 
-function formatDueDate(dueDate: string) {
-  return new Intl.DateTimeFormat("es-ES", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(dueDate));
-}
-
 type ProjectCardProps = {
   project: Project;
 };
@@ -21,6 +13,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       <header>
         <div>
           <span>{projectStatusLabels[project.status]}</span>
+
           <h2>{project.name}</h2>
         </div>
 
@@ -32,7 +25,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       <dl>
         <div>
           <dt>Entrega</dt>
-          <dd>{formatDueDate(project.dueDate)}</dd>
+          <dd>{project.dueDate}</dd>
         </div>
 
         <div>
