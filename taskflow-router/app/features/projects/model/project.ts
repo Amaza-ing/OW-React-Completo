@@ -16,6 +16,7 @@ export interface Project {
   progress: number;
   dueDate: string;
   members: number;
+  team?: ProjectMember[];
 }
 
 export interface AddProjectMemberInput {
