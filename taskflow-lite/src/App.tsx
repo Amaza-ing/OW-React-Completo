@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from "preact/hooks";
 import "./App.css";
 import TaskCard from "./components/TaskCard";
 import { initialTasks } from "./data/tasks";
@@ -25,9 +25,9 @@ function App() {
     <main className="taskflow-lite">
       <header className="taskflow-lite__header">
         <div>
-          <p className="taskflow-lite__eyebrow">TaskFlow Lite</p>
+          <p className="taskflow-lite__eyebrow">TaskFlow Lite · Preact</p>
           <h1>Tareas del equipo</h1>
-          <p>Una versión reducida para comparar React y Preact.</p>
+          <p>La misma interfaz, ahora renderizada con Preact.</p>
         </div>
 
         <strong>{visibleTasks.length} tareas visibles</strong>
