@@ -1,4 +1,4 @@
-import { useMemo, useState } from "preact/hooks";
+import { useComputed, useSignal } from "@preact/signals";
 import "./App.css";
 import TaskCard from "./components/TaskCard";
 import { initialTasks } from "./data/tasks";
@@ -11,33 +11,59 @@ import {
 type StatusFilter = "ALL" | TaskStatus;
 
 function App() {
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
+  const statusFilter = useSignal<StatusFilter>("ALL");
 
-  const visibleTasks = useMemo(() => {
-    if (statusFilter === "ALL") {
-      return initialTasks;
+  const tasks = useSignal([...initialTasks]);
+
+  const visibleTasks = useComputed(() => {
+    if (statusFilter.value === "ALL") {
+      return tasks.value;
     }
 
-    return initialTasks.filter((task) => task.status === statusFilter);
-  }, [statusFilter]);
+    return tasks.value.filter((task) => task.status === statusFilter.value);
+  });
+
+  const completedTasks = useComputed(
+    () => tasks.value.filter((task) => task.status === "DONE").length,
+  );
+
+  const toggleTask = (taskId: string) => {
+    tasks.value = tasks.value.map((task) => {
+      if (task.id !== taskId) {
+        return task;
+      }
+
+      return {
+        ...task,
+        status: task.status === "DONE" ? "TODO" : "DONE",
+      };
+    });
+  };
 
   return (
     <main className="taskflow-lite">
       <header className="taskflow-lite__header">
         <div>
-          <p className="taskflow-lite__eyebrow">TaskFlow Lite · Preact</p>
+          <p className="taskflow-lite__eyebrow">
+            TaskFlow Lite · Preact Signals
+          </p>
           <h1>Tareas del equipo</h1>
-          <p>La misma interfaz, ahora renderizada con Preact.</p>
+          <p>Estado reactivo y valores derivados con Signals.</p>
         </div>
 
-        <strong>{visibleTasks.length} tareas visibles</strong>
+        <div className="taskflow-lite__metrics">
+          <strong>{visibleTasks.value.length} visibles</strong>
+          <strong>{completedTasks.value} completadas</strong>
+        </div>
       </header>
 
       <section className="task-filters" aria-label="Filtrar tareas por estado">
         <button
           type="button"
-          className={statusFilter === "ALL" ? "is-active" : ""}
-          onClick={() => setStatusFilter("ALL")}
+          className={statusFilter.value === "ALL" ? "is-active" : ""}
+          onClick={() => {
+            statusFilter.value = "ALL";
+          }}
         >
           Todas
         </button>
@@ -46,8 +72,10 @@ function App() {
           <button
             key={status}
             type="button"
-            className={statusFilter === status ? "is-active" : ""}
-            onClick={() => setStatusFilter(status)}
+            className={statusFilter.value === status ? "is-active" : ""}
+            onClick={() => {
+              statusFilter.value = status;
+            }}
           >
             {taskStatusLabels[status]}
           </button>
@@ -55,8 +83,8 @@ function App() {
       </section>
 
       <section className="task-list">
-        {visibleTasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+        {visibleTasks.value.map((task) => (
+          <TaskCard key={task.id} task={task} onToggle={toggleTask} />
         ))}
       </section>
     </main>
