@@ -26,12 +26,29 @@
     }
   }
 
+  .taskflow-lite__context {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
   .taskflow-lite__eyebrow {
     color: #2563eb;
     font-size: 0.82rem;
     font-weight: 900;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .desktop-badge {
+    padding: 0.3rem 0.55rem;
+    color: #166534;
+    background-color: #dcfce7;
+    border: 1px solid #bbf7d0;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 850;
   }
 
   .taskflow-lite__metrics {
