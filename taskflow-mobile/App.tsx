@@ -1,84 +1,44 @@
-import { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import TaskCard from "./src/components/TaskCard";
-import { initialTasks } from "./src/data/tasks";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import type { RootStackParamList } from "./src/navigation/types";
+import TaskDetailScreen from "./src/screens/TaskDetailScreen";
+import TasksScreen from "./src/screens/TasksScreen";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const [tasks, setTasks] = useState(initialTasks);
-
-  const toggleTask = (taskId: string) => {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) => {
-        if (task.id !== taskId) {
-          return task;
-        }
-
-        return {
-          ...task,
-          status: task.status === "DONE" ? "TODO" : "DONE",
-        };
-      }),
-    );
-  };
-
-  const completedTasks = tasks.filter((task) => task.status === "DONE").length;
-
   return (
-    <View style={styles.screen}>
-      <StatusBar style="dark" />
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar style="dark" />
 
-      <View style={styles.header}>
-        <Text style={styles.eyebrow}>TaskFlow Mobile</Text>
-        <Text style={styles.title}>Tareas del equipo</Text>
-        <Text style={styles.subtitle}>
-          {completedTasks} de {tasks.length} completadas
-        </Text>
-      </View>
+        <Stack.Navigator
+          screenOptions={{
+            headerTintColor: "#1e3a8a",
+            headerTitleStyle: {
+              fontWeight: "800",
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Tasks"
+            component={TasksScreen}
+            options={{
+              title: "TaskFlow",
+            }}
+          />
 
-      <FlatList
-        data={tasks}
-        keyExtractor={(task) => task.id}
-        contentContainerStyle={styles.list}
-        renderItem={({ item }) => (
-          <TaskCard task={item} onToggle={toggleTask} />
-        )}
-      />
-    </View>
+          <Stack.Screen
+            name="TaskDetail"
+            component={TaskDetailScreen}
+            options={{
+              title: "Detalle",
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    paddingTop: 56,
-    backgroundColor: "#f8fafc",
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingBottom: 16,
-  },
-  eyebrow: {
-    color: "#2563eb",
-    fontSize: 13,
-    fontWeight: "900",
-    letterSpacing: 1,
-    textTransform: "uppercase",
-  },
-  title: {
-    marginTop: 4,
-    color: "#172033",
-    fontSize: 30,
-    fontWeight: "900",
-  },
-  subtitle: {
-    marginTop: 5,
-    color: "#64748b",
-    fontSize: 15,
-  },
-  list: {
-    gap: 12,
-    paddingHorizontal: 20,
-    paddingBottom: 28,
-  },
-});
