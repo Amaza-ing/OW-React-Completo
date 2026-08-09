@@ -4,3 +4,6 @@ cd taskflow-next
 
 npx create-react-router@latest taskflow-router --no-agent-skills
 npm uninstall tailwindcss @tailwindcss/vite
+
+
+npm create vite@latest taskflow-lite -- --template react-ts
