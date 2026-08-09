@@ -13,3 +13,4 @@ npm uninstall react react-dom @vitejs/plugin-react @types/react @types/react-dom
 npm install @preact/signals
 
 npx create-expo-app@latest taskflow-mobile --template blank-typescript
+npx expo install react-dom react-native-web
