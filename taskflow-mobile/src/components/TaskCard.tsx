@@ -3,43 +3,32 @@ import { taskStatusLabels, type Task } from "../model/task";
 
 type TaskCardProps = {
   task: Task;
-  onToggle: (taskId: string) => void;
+  onPress: (taskId: string) => void;
 };
 
-function TaskCard({ task, onToggle }: TaskCardProps) {
-  const isDone = task.status === "DONE";
-
+function TaskCard({ task, onPress }: TaskCardProps) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Abrir ${task.title}`}
+      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+      onPress={() => onPress(task.id)}
+    >
       <View style={styles.content}>
         <Text style={styles.project}>{task.project}</Text>
-
         <Text style={styles.title}>{task.title}</Text>
-
-        <Text
-          style={[
-            styles.status,
-            task.status === "DOING" && styles.statusDoing,
-            task.status === "DONE" && styles.statusDone,
-          ]}
-        >
-          {taskStatusLabels[task.status]}
-        </Text>
       </View>
 
-      <Pressable
-        accessibilityRole="button"
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed,
+      <Text
+        style={[
+          styles.status,
+          task.status === "DOING" && styles.statusDoing,
+          task.status === "DONE" && styles.statusDone,
         ]}
-        onPress={() => onToggle(task.id)}
       >
-        <Text style={styles.buttonText}>
-          {isDone ? "Reabrir" : "Completar"}
-        </Text>
-      </Pressable>
-    </View>
+        {taskStatusLabels[task.status]}
+      </Text>
+    </Pressable>
   );
 }
 
@@ -51,6 +40,9 @@ const styles = StyleSheet.create({
     borderColor: "#dbe3ee",
     borderRadius: 14,
     borderWidth: 1,
+  },
+  cardPressed: {
+    opacity: 0.7,
   },
   content: {
     gap: 5,
@@ -67,7 +59,6 @@ const styles = StyleSheet.create({
   },
   status: {
     alignSelf: "flex-start",
-    marginTop: 5,
     paddingHorizontal: 9,
     paddingVertical: 5,
     color: "#334155",
@@ -83,20 +74,6 @@ const styles = StyleSheet.create({
   statusDone: {
     color: "#166534",
     backgroundColor: "#dcfce7",
-  },
-  button: {
-    alignSelf: "flex-start",
-    paddingHorizontal: 12,
-    paddingVertical: 9,
-    backgroundColor: "#dbeafe",
-    borderRadius: 9,
-  },
-  buttonPressed: {
-    opacity: 0.65,
-  },
-  buttonText: {
-    color: "#1e3a8a",
-    fontWeight: "800",
   },
 });
 
