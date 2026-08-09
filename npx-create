@@ -10,3 +10,4 @@ npm create vite@latest taskflow-lite -- --template react-ts
 
 npm install preact @preact/preset-vite
 npm uninstall react react-dom @vitejs/plugin-react @types/react @types/react-dom
+npm install @preact/signals
