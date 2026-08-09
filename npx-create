@@ -17,3 +17,7 @@ npx expo install react-dom react-native-web
 
 npm install @react-navigation/native @react-navigation/native-stack
 npx expo install react-native-screens react-native-safe-area-context
+
+npm install --save-dev electron
+npm pkg set main="electron/main.cjs"
+npm pkg set "scripts.desktop=npm run build && electron electron/main.cjs"
