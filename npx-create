@@ -14,3 +14,6 @@ npm install @preact/signals
 
 npx create-expo-app@latest taskflow-mobile --template blank-typescript
 npx expo install react-dom react-native-web
+
+npm install @react-navigation/native @react-navigation/native-stack
+npx expo install react-native-screens react-native-safe-area-context
