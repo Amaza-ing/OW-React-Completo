@@ -10,6 +10,12 @@ import {
 
 type StatusFilter = "ALL" | TaskStatus;
 
+const desktopPlatformLabels: Record<string, string> = {
+  win32: "Windows",
+  darwin: "macOS",
+  linux: "Linux",
+};
+
 function App() {
   const statusFilter = useSignal<StatusFilter>("ALL");
 
@@ -26,6 +32,13 @@ function App() {
   const completedTasks = useComputed(
     () => tasks.value.filter((task) => task.status === "DONE").length,
   );
+
+  const desktopPlatform = window.taskflowDesktop?.platform;
+
+  const desktopPlatformLabel =
+    desktopPlatform === undefined
+      ? undefined
+      : (desktopPlatformLabels[desktopPlatform] ?? desktopPlatform);
 
   const toggleTask = (taskId: string) => {
     tasks.value = tasks.value.map((task) => {
@@ -44,11 +57,20 @@ function App() {
     <main className="taskflow-lite">
       <header className="taskflow-lite__header">
         <div>
-          <p className="taskflow-lite__eyebrow">
-            TaskFlow Lite · Preact Signals
-          </p>
+          <div className="taskflow-lite__context">
+            <p className="taskflow-lite__eyebrow">
+              TaskFlow Lite · Preact Signals
+            </p>
+
+            {desktopPlatformLabel !== undefined && (
+              <span className="desktop-badge">
+                Escritorio · {desktopPlatformLabel}
+              </span>
+            )}
+          </div>
+
           <h1>Tareas del equipo</h1>
-          <p>Estado reactivo y valores derivados con Signals.</p>
+          <p>La misma interfaz puede ejecutarse en web y escritorio.</p>
         </div>
 
         <div className="taskflow-lite__metrics">
