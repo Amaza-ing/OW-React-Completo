@@ -1,3 +1,5 @@
+import { getGraphQLApiUrl } from "@/shared/config/env";
+
 type GraphQLVariables = Record<string, unknown>;
 
 type GraphQLErrorLocation = {
@@ -40,16 +42,6 @@ export class GraphQLClientError extends Error {
   }
 }
 
-function getGraphQLEndpoint(): string {
-  const endpoint = import.meta.env.VITE_GRAPHQL_API_URL;
-
-  if (typeof endpoint !== "string" || endpoint.trim() === "") {
-    throw new Error("Falta configurar VITE_GRAPHQL_API_URL.");
-  }
-
-  return endpoint;
-}
-
 async function readGraphQLResponse<TData>(
   response: Response,
 ): Promise<GraphQLResponse<TData>> {
@@ -71,7 +63,7 @@ export async function requestGraphQL<
   variables,
   signal,
 }: GraphQLRequestOptions<TVariables>): Promise<TData> {
-  const response = await fetch(getGraphQLEndpoint(), {
+  const response = await fetch(getGraphQLApiUrl(), {
     method: "POST",
     headers: {
       Accept: "application/graphql-response+json, application/json",
