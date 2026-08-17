@@ -35,7 +35,7 @@ describe("Equipo de proyecto", () => {
 
     cy.contains("QA").should("be.visible");
 
-    cy.contains("Luis Test").should("be.visible");
+    cy.contains("Beatriz Test").should("be.visible");
 
     cy.contains("Frontend").should("be.visible");
   });
