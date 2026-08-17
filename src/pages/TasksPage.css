@@ -41,11 +41,35 @@
       opacity: 0.6;
     }
   }
+
+  .tasks-page__empty {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 500ms ease,
+      opacity 160ms ease;
+
+    &[data-visible="true"] {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+
+    > div {
+      min-height: 0;
+      overflow: hidden;
+
+      > p {
+        margin: 1rem 0 0;
+      }
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tasks-page {
-    .tasks-page__results {
+    .tasks-page__results,
+    .tasks-page__empty {
       transition: none;
     }
   }

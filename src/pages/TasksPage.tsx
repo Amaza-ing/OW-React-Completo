@@ -104,6 +104,8 @@ function TasksPage() {
 
   const isUpdatingResults = isStatusPending || isSearchPending;
 
+  const hasNoVisibleTasks = visibleTasks.length === 0;
+
   return (
     <div className="page tasks-page">
       <title>{`TaskFlow | ${tasks.length} tareas`}</title>
@@ -185,9 +187,16 @@ function TasksPage() {
             ))}
           </div>
 
-          {visibleTasks.length === 0 && (
-            <p>No hay tareas para los filtros seleccionados.</p>
-          )}
+          <div
+            className="tasks-page__empty"
+            data-visible={hasNoVisibleTasks}
+            aria-hidden={!hasNoVisibleTasks}
+            role="status"
+          >
+            <div>
+              <p>No hay tareas para los filtros seleccionados.</p>
+            </div>
+          </div>
         </div>
       </ContentPanel>
     </div>
