@@ -1,4 +1,5 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import { MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import { TasksProvider } from "../features/tasks";
 import { queryClient } from "./queryClient";
@@ -9,9 +10,11 @@ type AppProvidersProps = {
 
 function AppProviders({ children }: AppProvidersProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TasksProvider>{children}</TasksProvider>
-    </QueryClientProvider>
+    <MotionConfig reducedMotion="user">
+      <QueryClientProvider client={queryClient}>
+        <TasksProvider>{children}</TasksProvider>
+      </QueryClientProvider>
+    </MotionConfig>
   );
 }
 
