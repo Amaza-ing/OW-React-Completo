@@ -3,6 +3,7 @@ import "../src/index.css";
 import "../src/app/App.css";
 
 const preview: Preview = {
+  tags: ["autodocs"],
   decorators: [
     (Story) => (
       <div className="page">
