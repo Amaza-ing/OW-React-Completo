@@ -70,7 +70,7 @@ export const LongTitle: Story = {
     docs: {
       description: {
         story:
-          "Comprueba que un título mucho más largo que los datos habituales continúa adaptándose al espacio disponible.",
+          "Comprueba que un título mucho más largo que los datos habituales continúa adaptándose al espacio disponible!",
       },
     },
   },
