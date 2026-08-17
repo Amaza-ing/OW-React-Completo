@@ -1,4 +1,5 @@
 import { useId } from "react";
+import SuccessAnimation from "../../../../shared/components/feedback/SuccessAnimation/SuccessAnimation";
 import type { Project } from "../../../projects/model/project";
 import { useTaskForm } from "../../hooks/useTaskForm";
 import { taskPriorityOptions, type AddTaskHandler } from "../../model/task";
@@ -129,6 +130,8 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
           className={`task-form__feedback task-form__feedback--${feedback.type}`}
           role={feedback.type === "error" ? "alert" : "status"}
         >
+          {feedback.type === "success" && <SuccessAnimation />}
+
           {feedback.message}
         </p>
       )}
