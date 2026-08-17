@@ -6,6 +6,7 @@ import {
   useTransition,
 } from "react";
 import type { ChangeEventHandler } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { projects } from "../features/projects";
 import {
   TaskForm,
@@ -175,16 +176,38 @@ function TasksPage() {
 
         <div className="tasks-page__results" aria-busy={isUpdatingResults}>
           <div className="task-list">
-            {visibleTasks.map((task) => (
-              <TaskItem
-                key={task.id}
-                task={task}
-                projectName={
-                  projectNamesById.get(task.projectId) ??
-                  "Proyecto sin identificar"
-                }
-              />
-            ))}
+            <AnimatePresence initial={false}>
+              {visibleTasks.map((task) => (
+                <motion.div
+                  key={task.id}
+                  layout
+                  initial={{
+                    opacity: 0,
+                    y: 8,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -8,
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeOut",
+                  }}
+                >
+                  <TaskItem
+                    task={task}
+                    projectName={
+                      projectNamesById.get(task.projectId) ??
+                      "Proyecto sin identificar"
+                    }
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           <div
