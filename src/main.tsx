@@ -1,4 +1,5 @@
 // npm install motion
+// npm install @lottiefiles/dotlottie-react
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
