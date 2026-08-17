@@ -1,6 +1,6 @@
+import DashboardPage from "@/pages/DashboardPage";
+import AppLayout from "@/shared/components/layout/AppLayout";
 import { Navigate, Route, Routes } from "react-router";
-import DashboardPage from "../pages/DashboardPage";
-import AppLayout from "../shared/components/layout/AppLayout";
 import {
   NotFoundPage,
   ProjectDetailPage,
