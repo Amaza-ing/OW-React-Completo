@@ -1,6 +1,4 @@
-// npm install react-router
-// npm install @tanstack/react-query
-// npm install --save-dev graphql graphql-yoga
+// npm install --save-dev babel-plugin-react-compiler@latest @rolldown/plugin-babel
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
