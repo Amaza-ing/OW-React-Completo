@@ -18,32 +18,32 @@ describe("Gestión de tareas", () => {
   it("añade una nueva tarea", () => {
     const taskTitle = "Revisar pruebas Cypress";
 
-    cy.get('[data-cy="task-title"]').type(taskTitle);
+    cy.dataCy("task-title").type(taskTitle);
 
-    cy.get('[data-cy="task-due-date"]').type("Viernes");
+    cy.dataCy("task-due-date").type("Viernes");
 
-    cy.get('[data-cy="task-submit"]').click();
+    cy.dataCy("task-submit").click();
 
-    cy.contains('[data-cy="task-item"]', taskTitle).should("be.visible");
+    cy.dataCy("task-item").should("contain.text", taskTitle);
 
     cy.contains("Tarea añadida correctamente.").should("be.visible");
   });
 
   it("filtra el listado mediante la búsqueda", () => {
-    cy.get('[data-cy="task-item"]')
+    cy.dataCy("task-item")
       .its("length")
       .then((initialTaskCount) => {
-        cy.get('[data-cy="task-search"]').type("texto-que-no-existe");
+        cy.dataCy("task-search").type("texto-que-no-existe");
 
-        cy.get('[data-cy="task-item"]').should("not.exist");
+        cy.dataCy("task-item").should("not.exist");
 
         cy.contains("No hay tareas para los filtros seleccionados.").should(
           "be.visible",
         );
 
-        cy.get('[data-cy="task-search"]').clear();
+        cy.dataCy("task-search").clear();
 
-        cy.get('[data-cy="task-item"]').should("have.length", initialTaskCount);
+        cy.dataCy("task-item").should("have.length", initialTaskCount);
       });
   });
 });
