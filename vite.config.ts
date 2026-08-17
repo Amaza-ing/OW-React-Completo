@@ -7,4 +7,23 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: "react-vendor",
+              test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/,
+            },
+            {
+              name: "query-vendor",
+              test: /node_modules[\\/]@tanstack[\\/](?:react-query|query-core)[\\/]/,
+            },
+          ],
+        },
+      },
+    },
+  },
 });
