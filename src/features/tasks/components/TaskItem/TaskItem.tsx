@@ -13,7 +13,7 @@ type TaskItemProps = {
 
 function TaskItem({ task, projectName }: TaskItemProps) {
   return (
-    <article className="task-item">
+    <article className="task-item" data-cy="task-item">
       <span
         className={`task-item__indicator task-item__indicator--${task.status}`}
         aria-hidden="true"
@@ -35,6 +35,7 @@ function TaskItem({ task, projectName }: TaskItemProps) {
 
       <div className="task-item__meta">
         <span>{getTaskStatusLabel(task.status)}</span>
+
         <strong>{task.dueDate}</strong>
       </div>
     </article>
