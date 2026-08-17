@@ -16,6 +16,7 @@ function TaskSearch({ value, onChange }: TaskSearchProps) {
       <span>Buscar por título</span>
 
       <input
+        data-cy="task-search"
         type="search"
         value={value}
         onChange={handleChange}
