@@ -1,10 +1,14 @@
-// npm install --save-dev babel-plugin-react-compiler@latest @rolldown/plugin-babel
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./app/App.tsx";
 import { BrowserRouter } from "react-router";
+import App from "./app/App";
+import "./index.css";
+
+window.addEventListener("vite:preloadError", (event) => {
+  event.preventDefault();
+
+  window.location.reload();
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
