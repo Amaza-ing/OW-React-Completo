@@ -8,7 +8,7 @@ function SuccessAnimation() {
         className="success-animation__player"
         src="/animations/task-success.json"
         autoplay
-        loop={false}
+        loop={true}
       />
 
       <span className="success-animation__check">✓</span>
