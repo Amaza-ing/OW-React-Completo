@@ -1,38 +1,52 @@
 import babel from "@rolldown/plugin-babel";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 
-export default defineConfig({
-  plugins: [
-    react(),
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "VITE_");
 
-    babel({
-      presets: [reactCompilerPreset()],
-    }),
-  ],
+  if (
+    mode === "production" &&
+    (env.VITE_GRAPHQL_API_URL === undefined ||
+      env.VITE_GRAPHQL_API_URL.trim() === "")
+  ) {
+    throw new Error(
+      "Falta configurar VITE_GRAPHQL_API_URL para el build de producción.",
+    );
+  }
 
-  resolve: {
-    tsconfigPaths: true,
-  },
+  return {
+    plugins: [
+      react(),
 
-  build: {
-    license: true,
+      babel({
+        presets: [reactCompilerPreset()],
+      }),
+    ],
 
-    rolldownOptions: {
-      output: {
-        codeSplitting: {
-          groups: [
-            {
-              name: "react-vendor",
-              test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/,
-            },
-            {
-              name: "query-vendor",
-              test: /node_modules[\\/]@tanstack[\\/](?:react-query|query-core)[\\/]/,
-            },
-          ],
+    resolve: {
+      tsconfigPaths: true,
+    },
+
+    build: {
+      license: true,
+
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [
+              {
+                name: "react-vendor",
+                test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/,
+              },
+              {
+                name: "query-vendor",
+                test: /node_modules[\\/]@tanstack[\\/](?:react-query|query-core)[\\/]/,
+              },
+            ],
+          },
         },
       },
     },
-  },
+  };
 });
