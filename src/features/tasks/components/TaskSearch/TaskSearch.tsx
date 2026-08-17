@@ -4,22 +4,29 @@ import type { ChangeEventHandler } from "react";
 type TaskSearchProps = {
   value: string;
   onChange: (value: string) => void;
+  label?: string;
+  placeholder?: string;
 };
 
-function TaskSearch({ value, onChange }: TaskSearchProps) {
+function TaskSearch({
+  value,
+  onChange,
+  label = "Buscar por título",
+  placeholder = "Ej. diseño",
+}: TaskSearchProps) {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange(event.currentTarget.value);
   };
 
   return (
     <label>
-      <span>Buscar por título</span>
+      <span>{label}</span>
 
       <input
         type="search"
         value={value}
         onChange={handleChange}
-        placeholder="Ej. diseño"
+        placeholder={placeholder}
       />
     </label>
   );
