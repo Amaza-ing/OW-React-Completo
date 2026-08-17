@@ -16,6 +16,8 @@ export default defineConfig({
   },
 
   build: {
+    license: true,
+
     rolldownOptions: {
       output: {
         codeSplitting: {
