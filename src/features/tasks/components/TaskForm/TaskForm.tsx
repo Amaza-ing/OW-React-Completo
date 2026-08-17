@@ -39,6 +39,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
   return (
     <form
       className="task-form"
+      data-cy="task-form"
       action={submitAction}
       aria-busy={isPending}
       noValidate
@@ -50,6 +51,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
           <input
             ref={titleInputRef}
             id={titleId}
+            data-cy="task-title"
             type="text"
             name="title"
             value={formData.title}
@@ -110,6 +112,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
 
           <input
             id={dueDateId}
+            data-cy="task-due-date"
             type="text"
             name="dueDate"
             value={formData.dueDate}
@@ -145,6 +148,7 @@ function TaskForm({ projects, onAddTask }: TaskFormProps) {
         </button>
 
         <button
+          data-cy="task-submit"
           type="submit"
           name="intent"
           value="submit"
