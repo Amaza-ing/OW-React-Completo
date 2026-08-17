@@ -1,0 +1,19 @@
+{
+  "data": {
+    "project": {
+      "id": "website-redesign",
+      "team": [
+        {
+          "id": "member-cy-1",
+          "name": "Ana Cypress",
+          "role": "QA"
+        },
+        {
+          "id": "member-cy-2",
+          "name": "Beatriz Test",
+          "role": "Frontend"
+        }
+      ]
+    }
+  }
+}
